@@ -1,8 +1,12 @@
 #include "MyForm.h"
+#include "ApplicationLauncher.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
 
+void launchOptiKey() {
+
+}
 
 [STAThread]
 void Main(array<String^>^ args)
