@@ -23,12 +23,44 @@ when working as a team.
 
 With this in mind, here are a few recomendations:
 
-install [meld](http://meldmerge.org/) and use it as your merge and diff tools I'm working on setting this up myself
-and will post a tutorial soon.
+* Install [meld](http://meldmerge.org/) and use it as your merge and diff tools. To do this you can download and run
+installer if you are on windows or follow the instructions on there site for other OS's.
+
+Now you will need to modify your git config. I have found that the easiest way to do this is with Git Bash which you
+can get from [here](https://gitforwindows.org/)
+
+Using the git bash terminal you will be able to run linux like commands and interact with git in a terminal custom
+built for that purpose.
+
+If you are on windows you will need to add an environment variable for Home and set it to the path you want to be
+represented as home in your git experience. This should be relatively high level. Like your documents folder 
+C:/Users/{Username}/
+
+With that home environment variable set, restart git bash then type:
+
+    cd ~/
+    vi .gitconfig
+    
+Then add the following to that gitconfig file:
+
+    [merge]
+        tool = meld
+    [mergetool "meld"]
+        path = C:/Program Files (x86)/Meld/Meld.exe
+    [diff]
+        tool = meld
+    [difftool "meld"]
+        path = C:/Program files (x86)/Meld/Meld.exe
 
 When you start working on a new feature or ticket you should make a new branch off of master.
 Then when you are ready to make a pull request to merge you changes into master you should do a rebase or a merge.
-Then issue the PR.
+When you have to deal with merge conflicts you will now be able to work through that with meld instead of on the command
+line.
 
-This will be updated to be clarified shortly.
+Once the issue has been merged or rebased and you have retested your code to make sure it still works with the
+changes created from the merge conflicts then you should be all set to put in a pull request.
+
+
+
+
 
