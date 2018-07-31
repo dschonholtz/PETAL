@@ -1,6 +1,7 @@
 # PETAL
 ## Person Eye Tracking Application Launcher
 
+__TOC__
 
 ### Project Purpose
 The goal of this project is to make a simple headset that can be combo'd with a windows application anyone can 
@@ -59,6 +60,14 @@ line.
 
 Once the issue has been merged or rebased and you have retested your code to make sure it still works with the
 changes created from the merge conflicts then you should be all set to put in a pull request.
+
+
+## Working with CLI
+
+Start here: 
+https://www.codeproject.com/Articles/19354/Quick-C-CLI-Learn-C-CLI-in-less-than-10-minutes
+
+Then look at the code in NativeCpp and in wrappers to see how the application goes Form->Wrapper->NativeCpp.
 
 
 
