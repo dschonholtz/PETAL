@@ -10,6 +10,10 @@
 
 class PubSubHandler;
 class Subscriber {
+private:
+	PubSubHandler * psh;
+	queue<EventMessage> receivedMessageQueue;
+
 public:
 	Subscriber(PubSubHandler* p) { psh = p; }
 	virtual ~Subscriber() { }
@@ -19,10 +23,6 @@ public:
 	EventMessage getTopMessage() { return receivedMessageQueue.front(); }
 
 	virtual void readMessages() = 0;
-
-private:
-	PubSubHandler * psh;
-	queue<EventMessage> receivedMessageQueue;
 };
 
 #endif // !SUBSCRIBER_H

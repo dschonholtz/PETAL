@@ -9,8 +9,7 @@ class MouseController: public Subscriber
 
 	// Access specifier 
 public:
-	MouseController(PubSubHandler* p) {
-		Subscriber::Subscriber(p);
+	MouseController(PubSubHandler* p) : Subscriber(p){
 	}
 	void receiveMessage(EventMessage e);
 	virtual void readMessages();
