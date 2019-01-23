@@ -1,5 +1,5 @@
-#include "pubsub.h"
-#include "Dummies.h"
+#include "stdafx.h"
+//#include "Dummies.h"
 
 void PubSubHandler::AddSubscriber(Subscriber* s, EventTopic e) {
 	if (topicSubscribers.find(e) == topicSubscribers.end()) {
@@ -34,11 +34,4 @@ void PubSubHandler::Forward() {
 
 		}
 	}
-}
-
-int main()
-{
-	//AprilTag* a = new AprilTag();
-	//Gaze *g = new Gaze();
-
 }
