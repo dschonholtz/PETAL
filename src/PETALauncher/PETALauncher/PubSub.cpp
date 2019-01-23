@@ -1,6 +1,9 @@
 #include "stdafx.h"
 //#include "Dummies.h"
 
+PubSubHandler::PubSubHandler() {
+}
+
 void PubSubHandler::AddSubscriber(Subscriber* s, EventTopic e) {
 	if (topicSubscribers.find(e) == topicSubscribers.end()) {
 		topicSubscribers.insert(make_pair(e, list<Subscriber*>{ s }));

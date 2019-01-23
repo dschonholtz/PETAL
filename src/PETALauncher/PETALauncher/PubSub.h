@@ -2,6 +2,7 @@
 #ifndef PUBSUB_H
 #define PUBSUB_H
 
+#include "stdafx.h"
 #include <list>
 #include <map>
 #include <queue>
@@ -12,6 +13,7 @@
 using namespace std;
 class PubSubHandler {
 public:
+	PubSubHandler();
 	void AddSubscriber(Subscriber* s, EventTopic e);
 	void Forward();
 	void ReceiveMessage(EventMessage e);

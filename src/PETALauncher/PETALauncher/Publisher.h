@@ -3,14 +3,13 @@
 #define PUBLISHER_H
 
 #include "EventData.h"
-#include "PubSub.h"
-
 class PubSubHandler;
 class Publisher {
 public:
-	Publisher(PubSubHandler* p) { psh = p; }
+	Publisher();
+	Publisher(PubSubHandler* p);
 	virtual ~Publisher() {}
-	void Publish(EventMessage message) { psh->ReceiveMessage(message); }
+	void Publish(EventMessage message);
 
 private:
 	PubSubHandler * psh;

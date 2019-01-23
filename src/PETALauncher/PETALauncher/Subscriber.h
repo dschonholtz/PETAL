@@ -1,28 +1,28 @@
 #pragma once
 
-
 #ifndef SUBSCRIBER_H
 #define SUBSCRIBER_H
-
+#include "stdafx.h"
 #include "EventData.h"
 #include <queue>
-#include <list>
+
+using namespace std;
 
 class PubSubHandler;
 class Subscriber {
-private:
-	PubSubHandler * psh;
-	queue<EventMessage> receivedMessageQueue;
-
 public:
-	Subscriber(PubSubHandler* p) { psh = p; }
+	Subscriber(PubSubHandler* p);
 	virtual ~Subscriber() { }
-	void receiveMessage(EventMessage e) { receivedMessageQueue.push(e); }
-	void SubscribeToTopic(EventTopic t) { psh->AddSubscriber(this, t); }
-	void UnSubscribeToTopic(EventTopic t) { psh->RemoveSubscriber(this, t); }
-	EventMessage getTopMessage() { return receivedMessageQueue.front(); }
+	void receiveMessage(EventMessage e);
+	void SubscribeToTopic(EventTopic t);
+	void UnSubscribeToTopic(EventTopic t);
+	EventMessage getTopMessage();
 
 	virtual void readMessages() = 0;
+
+private:
+	PubSubHandler * psh;
+	queue <EventMessage> receivedMessageQueue;
 };
 
 #endif // !SUBSCRIBER_H
