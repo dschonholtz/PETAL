@@ -7,6 +7,7 @@ Subscriber::Subscriber(PubSubHandler* p) {
 
 void Subscriber::receiveMessage(EventMessage e) {
 	receivedMessageQueue.push(e);
+	readMessages();
 }
 
 void Subscriber::SubscribeToTopic(EventTopic t) {
