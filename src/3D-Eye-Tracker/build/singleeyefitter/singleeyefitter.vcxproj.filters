@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\schon\Documents\2019\School\Capstone\PETAL\src\3D-Eye-Tracker\singleeyefitter\SingleEyeFitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\schon\Documents\2019\School\Capstone\PETAL\src\3D-Eye-Tracker\singleeyefitter\cvx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\schon\Documents\2019\School\Capstone\PETAL\src\3D-Eye-Tracker\singleeyefitter\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\schon\Documents\2019\School\Capstone\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{324BD72F-2438-3EFB-8F03-8B0790465B00}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

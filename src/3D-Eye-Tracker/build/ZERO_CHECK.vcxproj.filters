@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\schon\Documents\2019\School\Capstone\PETAL\src\3D-Eye-Tracker\build\CMakeFiles\4ab6a5d763629c0bf61d78755564a899\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{26439009-98A4-322C-BA10-99FA4B1CCFCE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
