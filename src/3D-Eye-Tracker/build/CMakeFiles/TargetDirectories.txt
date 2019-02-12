@@ -1,4 +1,0 @@
-C:/Users/schon/Documents/2019/School/Capstone/PETAL/src/3D-Eye-Tracker/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/schon/Documents/2019/School/Capstone/PETAL/src/3D-Eye-Tracker/build/CMakeFiles/ZERO_CHECK.dir
-C:/Users/schon/Documents/2019/School/Capstone/PETAL/src/3D-Eye-Tracker/build/main/CMakeFiles/main.dir
-C:/Users/schon/Documents/2019/School/Capstone/PETAL/src/3D-Eye-Tracker/build/singleeyefitter/CMakeFiles/singleeyefitter.dir
