@@ -24,12 +24,16 @@ For the main parent app that currently does the eye tracking and that the
 other apps will eventually be integrated into. Here are a couple of pointers
 to help you get started.
 
-1. Pull the repo down from git and then go into the directory:
+1. Make sure that Boost and OpenCV are installed in C:/local/ as that is where the new
+cmake file will reference them from.
+
+		Boost should be named: boost_1_62_0
+		and OpenCV should be named: opencv-3.1.0
+
+2. Pull the repo down from git and then go into the directory:
 
         PETAL\src\3D-Eye-Tracker
-        
-2. From there check the external folder and if they aren't there
-download OpenCV 3.1 and Boost 1.62.0 both for windows 64 machines into that directory
+       
 
 3. Now you are going to need to modify some of the paths for cmake to build
 the project correctly so navigate to the file

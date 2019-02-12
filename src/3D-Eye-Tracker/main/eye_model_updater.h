@@ -3,9 +3,11 @@
 
 
 //#define NOMINMAX
+#define _USE_MATH_DEFINES
 
 #include <vector>
 #include <algorithm>
+#include <cmath>
 
 #include <Eigen/Core>
 #include <opencv2/core/core.hpp>
@@ -113,6 +115,9 @@ protected:
 	bool is_model_built_ = false;
 	bool is_status_initialized_ = false;
 	SpaceBinSearcher space_bin_searcher_;
+
+	// 3D vector
+	std::vector<double> gaze_dir;
 
 private:
 	// Prevent copying

@@ -251,6 +251,6 @@ paket-files/
 .idea/
 *.sln.iml
 
-# don't include boost or openCV
-external/boost_1_62_0/
-external/opencv/
+# don't include in the build folder as cmake remakes it anyway
+build/
+
