@@ -180,9 +180,9 @@ EyeModelUpdater::EyeModelUpdater(){
 
 }
 
-EyeModelUpdater::EyeModelUpdater(double focal_length, double region_band_width, double region_step_epsilon)
+EyeModelUpdater::EyeModelUpdater(double focal_length, double region_band_width, double region_step_epsilon, PubSubHandler* p)
 	: focal_length_(focal_length), simple_fitter_(focal_length_, region_band_width, region_step_epsilon),
-	fitter_max_count_(kFitterMaxCountDefault_)
+	fitter_max_count_(kFitterMaxCountDefault_), Publisher(p)
 {
 }
 
@@ -319,6 +319,12 @@ void EyeModelUpdater::render(cv::Mat &img, sef::Ellipse2D<double> &el, std::vect
 			for (uint i = 0; i < 3; i++) {
 				gaze_dir[i] /= mag;
 			}
+			// do the publish of the vector:
+			EventMessage eventMessage;
+			eventMessage.topic = EyeData;
+			eventMessage.data = &gaze_dir;
+			Publish(eventMessage);
+
 		}
 	}
 }

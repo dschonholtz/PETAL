@@ -24,6 +24,8 @@
 #include <singleeyefitter/Ellipse.h>
 #include <singleeyefitter/Sphere.h>
 
+#include "Publisher.h"
+
 
 //#include "eye_util.h"
 
@@ -78,11 +80,11 @@ protected:
 };
 
 // 3D eye model fitting
-class EyeModelUpdater
+class EyeModelUpdater : public Publisher
 {
 public:
 	EyeModelUpdater();
-	EyeModelUpdater(double focal_length, double region_band_width, double region_step_epsilon);
+	EyeModelUpdater(double focal_length, double region_band_width, double region_step_epsilon, PubSubHandler* p);
 
 	bool add_observation(cv::Mat &image, sef::Ellipse2D<double> &pupil, std::vector<cv::Point2f> &pupil_inliers, bool force=false);
 	
@@ -103,6 +105,7 @@ public:
 	size_t fitter_end_count(){ return fitter_max_count_; }
 	void add_fitter_max_count(int n);
 	const singleeyefitter::EyeModelFitter&fitter(){ return simple_fitter_; };
+
 protected:
 	// Local variables initialized at the constructor
 	double focal_length_;

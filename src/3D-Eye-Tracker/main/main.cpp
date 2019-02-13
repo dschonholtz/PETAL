@@ -50,6 +50,9 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 
 int main(int argc, char *argv[]){
 	
+	//pub sub declarations:
+	PubSubHandler *pubSubHandler = new PubSubHandler();
+
 	// Variables for FPS
 	eye_tracker::FrameRateCounter frame_rate_counter;
 
@@ -153,14 +156,14 @@ int main(int argc, char *argv[]){
 		{
 		case InputMode::IMAGE:
 			eyecams[0] = std::make_unique<eye_tracker::EyeCamera>(media_file, false);
-			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5);
+			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Video/Image" };
 			file_stems = { media_file_stem };
 			break;
 		case InputMode::VIDEO:
 			eyecams[0] = std::make_unique<eye_tracker::EyeCamera>(media_file, false);
-			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5);
+			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Video/Image" };
 			file_stems = { media_file_stem };
@@ -177,8 +180,8 @@ int main(int argc, char *argv[]){
 			eyecams[0] = std::make_unique<eye_tracker::EyeCameraDS>("Pupil Cam1 ID0");
 			eyecams[1] = std::make_unique<eye_tracker::EyeCameraDS>("Pupil Cam1 ID2");
 #endif
-			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5);
-			eye_model_updaters[1] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5);
+			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
+			eye_model_updaters[1] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			camera_undistorters[1] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Cam0", "Cam1" };
@@ -186,7 +189,7 @@ int main(int argc, char *argv[]){
 			break;
 		case InputMode::CAMERA_MONO:
 			eyecams[0] = std::make_unique<eye_tracker::EyeCameraDS>("HD USB Camera"); //
-			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5);
+			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Cam0" };
 			file_stems = { "cam0" };
@@ -208,23 +211,22 @@ int main(int argc, char *argv[]){
 	pupilFitter.setDebug(false);
 	/////////////////////////
 
-	PubSubHandler *pubSubHandler = new PubSubHandler();
-	DummyPublisher pub = DummyPublisher(pubSubHandler);
+	//DummyPublisher pub = DummyPublisher(pubSubHandler);
 	MouseController sub = MouseController(pubSubHandler);
-	pubSubHandler->AddSubscriber(&sub, MousePos);
-	int x;
-	int y;
-	MousePosData mpd;
-	EventMessage em;
-	std::cout << "Enter new x coord: ";
-	std::cin >> x;
-	std::cout << "Enter new y coord: ";
-	std::cin >> y;
-	mpd.x = x;
-	mpd.y = y;
-	em.topic = MousePos;
-	em.data = &mpd;
-	pub.Publish(em);
+	pubSubHandler->AddSubscriber(&sub, EyeData);
+	//int x;
+	//int y;
+	//MousePosData mpd;
+	//EventMessage em;
+	//std::cout << "Enter new x coord: ";
+	//std::cin >> x;
+	//std::cout << "Enter new y coord: ";
+	//std::cin >> y;
+	//mpd.x = x;
+	//mpd.y = y;
+	//em.topic = MousePos;
+	//em.data = &mpd;
+	//pub.Publish(em);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b
