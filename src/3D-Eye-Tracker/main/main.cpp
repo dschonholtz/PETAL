@@ -34,6 +34,11 @@
 #include "eye_model_updater.h" // 3D model builder
 #include "eye_cameras.h" // Camera interfaces
 
+#include "stdafx.h"
+#include "pubsub.h"
+#include "DummyPublisher.h"
+#include "MouseController.h"
+
 
  
 namespace {
@@ -202,6 +207,24 @@ int main(int argc, char *argv[]){
 	PupilFitter pupilFitter;
 	pupilFitter.setDebug(false);
 	/////////////////////////
+
+	PubSubHandler *pubSubHandler = new PubSubHandler();
+	DummyPublisher pub = DummyPublisher(pubSubHandler);
+	MouseController sub = MouseController(pubSubHandler);
+	pubSubHandler->AddSubscriber(&sub, MousePos);
+	int x;
+	int y;
+	MousePosData mpd;
+	EventMessage em;
+	std::cout << "Enter new x coord: ";
+	std::cin >> x;
+	std::cout << "Enter new y coord: ";
+	std::cin >> y;
+	mpd.x = x;
+	mpd.y = y;
+	em.topic = MousePos;
+	em.data = &mpd;
+	pub.Publish(em);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b
