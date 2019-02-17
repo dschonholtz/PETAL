@@ -303,18 +303,18 @@ void EyeModelUpdater::render(cv::Mat &img, sef::Ellipse2D<double> &el, std::vect
 			// 3D gaze vector mathematical representation
 			gaze_dir[0] = rr_eye.center.x - rr_pupil.center.x;
 			gaze_dir[1] = rr_eye.center.y - rr_pupil.center.y;
-			gaze_dir[4] = atan(gaze_dir[1] / gaze_dir[0]);
+			gaze_dir[3] = atan(gaze_dir[1] / gaze_dir[0]);
 			if (gaze_dir[0] < 0) { // More context needed after inverse trigonometry
-				gaze_dir[4] += M_PI;
+				gaze_dir[3] += M_PI;
 			}
 			else if (gaze_dir[1] < 0) {
+				gaze_dir[3] += 2 * M_PI;
+			}
+			gaze_dir[4] = asin(gaze_dir[1] / (0.5 * rr_eye.size.width * sin(gaze_dir[3])));
+			if (gaze_dir[4] < 0) {
 				gaze_dir[4] += 2 * M_PI;
 			}
-			gaze_dir[5] = asin(gaze_dir[1] / (0.5 * rr_eye.size.width * sin(gaze_dir[4])));
-			if (gaze_dir[5] < 0) {
-				gaze_dir[5] += 2 * M_PI;
-			}
-			gaze_dir[3] = sin(gaze_dir[5]);
+			gaze_dir[2] = sin(gaze_dir[4]);
 			double mag = sqrt(pow(gaze_dir[0], 2) + pow(gaze_dir[1], 2) + pow(gaze_dir[2], 2));
 			for (uint i = 0; i < 3; i++) {
 				gaze_dir[i] /= mag;
