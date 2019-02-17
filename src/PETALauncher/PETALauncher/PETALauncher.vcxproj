@@ -147,7 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CentralProcessor.h" />
     <ClInclude Include="DummyPublisher.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="MouseController.h" />
@@ -158,7 +157,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CentralProcessor.cpp" />
     <ClCompile Include="DummyPublisher.cpp" />
     <ClCompile Include="MouseController.cpp" />
     <ClCompile Include="PETALauncher.cpp" />

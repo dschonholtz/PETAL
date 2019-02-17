@@ -9,7 +9,9 @@ void MouseController::readMessages() {
 		LPPOINT currentMousePos;
 		GetCursorPos(currentMousePos);
 		double x = mpd.at(0);
+		cout << x;
 		double y = mpd.at(1);
+		cout << y;
 		int xMax = 1920;
 		int yMax = 1080;
 		int xChange, yChange = 0;
