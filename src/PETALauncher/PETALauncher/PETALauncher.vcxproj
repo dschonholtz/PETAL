@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="DummyPublisher.h" />
     <ClInclude Include="EventData.h" />
+    <ClInclude Include="GUI.h" />
     <ClInclude Include="MouseController.h" />
     <ClInclude Include="Publisher.h" />
     <ClInclude Include="PubSub.h" />
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DummyPublisher.cpp" />
+    <ClCompile Include="GUI Proj.cpp" />
     <ClCompile Include="MouseController.cpp" />
     <ClCompile Include="PETALauncher.cpp" />
     <ClCompile Include="PubSub.cpp" />
