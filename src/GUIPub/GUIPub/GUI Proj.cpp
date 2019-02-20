@@ -2,12 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "GUI.h"
+#include "Resource.h"
 #include "ShellAPI.h"
-
-#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-// Windows Header Files
-#include <Windows.h>
 
 #define MAX_LOADSTRING 100
 #define GWL_HINSTANCE       (-6)

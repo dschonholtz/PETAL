@@ -18,6 +18,9 @@ public:
 	void Forward();
 	void ReceiveMessage(EventMessage e);
 	void RemoveSubscriber(Subscriber *s, EventTopic e);
+	DWORD Run();
+	void StartThread(void);
+
 
 private:
 	map<EventTopic, list<Subscriber*>> topicSubscribers;

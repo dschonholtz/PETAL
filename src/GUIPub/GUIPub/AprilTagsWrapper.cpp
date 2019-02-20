@@ -1,4 +1,4 @@
 #include "stdafx.h"
 #include "AprilTagsWrapper.h"
 
-using namespace 
+using namespace std;
