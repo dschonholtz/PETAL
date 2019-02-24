@@ -6,8 +6,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 set(CMAKE_INSTALL_PREFIX "./install") 
 
 # Your custom paths to Boost and OpenCV libraries
-set(BOOST_ROOT "C:/local/boost_1_62_0")
-set(OpenCV_DIR "C:/local/opencv-3.1.0/build")
+set(BOOST_ROOT "${PROJECT_SOURCE_DIR}/external/boost_1_62_0")
+set(OpenCV_DIR "${PROJECT_SOURCE_DIR}/external/opencv/build")
 
 # Bundled external libraries
 set(CMAKE_PREFIX_PATH  "${PROJECT_SOURCE_DIR}/external/Ceres-1.11/CMake")
