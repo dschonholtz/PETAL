@@ -1,8 +1,6 @@
 # PETAL
 ## Person Eye Tracking Application Launcher
 
-__TOC__
-
 ### Project Purpose
 The goal of this project is to make a simple headset that can be combo'd with a windows application anyone can 
 install on their windows computer.
@@ -17,6 +15,65 @@ To best help us track issues and to make sure people don't work on multiple issu
 issue off of the backlog (TODO) move the associated ticket from the todo column to the in progress column and 
 assign yourself to the ticket.
 
+### Running the application
+
+We now have a couple of different apps in our git repo and are still
+in the process of integrating some of them.
+
+For the main parent app that currently does the eye tracking and that the 
+other apps will eventually be integrated into. Here are a couple of pointers
+to help you get started.
+
+1. Make sure that Boost and OpenCV are installed in C:/local/ as that is where the new
+cmake file will reference them from.
+
+		Boost should be named: boost_1_62_0
+		and OpenCV should be named: opencv-3.1.0
+
+2. Pull the repo down from git and then go into the directory:
+
+        PETAL\src\3D-Eye-Tracker
+       
+
+3. Now you are going to need to modify some of the paths for cmake to build
+the project correctly so navigate to the file
+
+        PETAL\src\3D-Eye-Tracker\build\cmake_install
+        
+4. In that directory find any and all paths that look like:
+
+        C:/Users/schon/Documents/2019/School/Capstone/PETAL/src/3D-Eye-Tracker....
+   
+and modify them so they point to your local repo on your machine.
+
+5. Now you should open the CMake GUI and browse to your source and build folders so that both paths should
+end in the following: 
+
+        /Your/local/path/here/PETAL/src/3D-Eye-Tracker
+        /Your/local/path/here/PETAL/src/3D-Eye-Tracker/build
+        
+6. Then click File -> delete cache
+
+7. Click the generate button
+
+8. In the resulting pop up select the default option:
+
+        Visual Studio 15 2017 Win64
+        
+9. BEFORE YOU EXIT THAT WINDOW enter the following option into the toolset window
+
+        v140
+        
+10. Click finish and pray it doesn't error
+
+11. Open the solution in the build folder 
+
+        PETAL\src\3D-Eye-Tracker\build\3d_eye_tracker.sln
+        
+12. Make sure main is selected as the default project and not ALL_BUILD
+
+13. Click the green debug button and it should all launch.
+        
 ### Using git properly
 
 Using git properly to make sure that no work is lost and everyone can work on the same project is essential 
