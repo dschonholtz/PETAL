@@ -4,7 +4,7 @@
 
 void MouseController::readMessages() {
 	EventMessage em = MouseController::getTopMessage();
-	if (em.topic == EyeData) {
+	if (em.topic == Eye) {
 		std::vector<double> mpd = *static_cast<std::vector<double> *>(em.data);
 		POINT currentMousePos;
 		GetCursorPos(&currentMousePos);

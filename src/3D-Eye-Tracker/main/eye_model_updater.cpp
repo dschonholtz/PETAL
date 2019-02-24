@@ -321,7 +321,7 @@ void EyeModelUpdater::render(cv::Mat &img, sef::Ellipse2D<double> &el, std::vect
 			}
 			// do the publish of the vector:
 			EventMessage eventMessage;
-			eventMessage.topic = EyeData;
+			eventMessage.topic = Eye;
 			eventMessage.data = &gaze_dir;
 			Publish(eventMessage);
 

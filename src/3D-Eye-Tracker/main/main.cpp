@@ -48,7 +48,7 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 }
 
 
-int main(int argc, char *argv[]){
+/*int main(int argc, char *argv[]){
 	
 	//pub sub declarations:
 	PubSubHandler *pubSubHandler = new PubSubHandler();
@@ -213,20 +213,7 @@ int main(int argc, char *argv[]){
 
 	//DummyPublisher pub = DummyPublisher(pubSubHandler);
 	MouseController sub = MouseController(pubSubHandler);
-	pubSubHandler->AddSubscriber(&sub, EyeData);
-	//int x;
-	//int y;
-	//MousePosData mpd;
-	//EventMessage em;
-	//std::cout << "Enter new x coord: ";
-	//std::cin >> x;
-	//std::cout << "Enter new y coord: ";
-	//std::cin >> y;
-	//mpd.x = x;
-	//mpd.y = y;
-	//em.topic = MousePos;
-	//em.data = &mpd;
-	//pub.Publish(em);
+	pubSubHandler->AddSubscriber(&sub, Eye);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b
@@ -338,4 +325,4 @@ int main(int argc, char *argv[]){
 
 	return 0;
 
-}
+}*/

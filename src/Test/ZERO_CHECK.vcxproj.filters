@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\CMakeFiles\d4f9ec36546d704912fce563288394f3\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{49F3825F-2DD0-348C-BE99-9A9027EBF74A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -40,3 +40,42 @@ void PubSubHandler::Forward() {
 		}
 	}
 }
+
+VOID startProcess(LPCWSTR path)
+{
+	std::cout << "in startup\n";
+	ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOWDEFAULT);
+	std::cout << "after attempt\n";
+}
+
+DWORD WINAPI PubSubHandler::startMethodInThread(LPVOID arg)
+{
+	if (!arg)
+		return 0;
+	PubSubHandler *ptr = (PubSubHandler*)arg;
+	ptr->Run();
+	return 1;
+}
+
+void PubSubHandler::StartThread(void)
+{
+	CreateThread(NULL, 4096, startMethodInThread, this, 0, NULL);
+}
+
+DWORD PubSubHandler::Run(void)
+{	
+	DummyPublisher pub = DummyPublisher(this);
+	MouseController sub = MouseController(this);
+	sub.SubscribeToTopic(MousePos);
+	int x = 0;
+	int y = 0;
+	MousePosData mpd;
+
+	while (true) {
+		//OutputDebugStringW(L"Running handler\n");
+		std::cin >> y;
+		mpd.x = x;
+		mpd.y = y;
+		
+	}
+}

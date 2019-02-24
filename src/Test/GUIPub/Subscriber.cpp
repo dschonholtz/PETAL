@@ -22,6 +22,6 @@ EventMessage Subscriber::getTopMessage() {
 	return receivedMessageQueue.front();
 }
 
-void Subscriber::EmptyQueue() {
+void Subscriber::emptyQueue() {
 	receivedMessageQueue.empty();
 }
