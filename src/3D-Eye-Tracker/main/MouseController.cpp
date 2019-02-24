@@ -20,10 +20,11 @@ void MouseController::readMessages() {
 			xChange = 10;
 		} else if (x < -.2 && currentMousePos.x > 10) {
 			xChange = -10;
-		} else if (y > .4 && currentMousePos.y < yMax - 10) {
-			yChange = 10;
-		} else if (y < 0 && currentMousePos.y > 10) {
+		} 
+		if (y > .4 && currentMousePos.y < yMax - 10) {
 			yChange = -10;
+		} else if (y < 0 && currentMousePos.y > 10) {
+			yChange = 10;
 		}
 
 		setCursorPosition(currentMousePos.x + xChange, currentMousePos.y + yChange);
