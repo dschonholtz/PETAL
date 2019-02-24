@@ -17,6 +17,7 @@ public:
 	void SubscribeToTopic(EventTopic t);
 	void UnSubscribeToTopic(EventTopic t);
 	EventMessage getTopMessage();
+	void emptyQueue();
 
 	virtual void readMessages() = 0;
 

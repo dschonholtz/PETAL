@@ -21,13 +21,22 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MouseController.h">
+    <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Subscriber.h">
+    <ClInclude Include="GUIPub.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AprilTagsWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyPublisher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Publisher.h">
@@ -36,7 +45,10 @@
     <ClInclude Include="PubSub.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DummyPublisher.h">
+    <ClInclude Include="Subscriber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DotTrainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,23 +56,42 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PETALauncher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PubSub.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DummyPublisher.cpp">
+    <ClCompile Include="GUIPub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Subscriber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MouseController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AprilTagsWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyPublisher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Publisher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PubSub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DotTrainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GUIPub.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="GUIPub.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

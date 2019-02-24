@@ -21,3 +21,7 @@ void Subscriber::UnSubscribeToTopic(EventTopic t) {
 EventMessage Subscriber::getTopMessage() {
 	return receivedMessageQueue.front();
 }
+
+void Subscriber::emptyQueue() {
+	receivedMessageQueue.empty();
+}
