@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AprilTagsWrapper.h" />
+    <ClInclude Include="DotTrainer.h" />
     <ClInclude Include="DummyPublisher.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="GUIPub.h" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AprilTagsWrapper.cpp" />
+    <ClCompile Include="DotTrainer.cpp" />
     <ClCompile Include="DummyPublisher.cpp" />
     <ClCompile Include="GUIPub.cpp" />
     <ClCompile Include="MouseController.cpp" />

@@ -48,7 +48,7 @@ VOID startProcess(LPCWSTR path)
 	std::cout << "after attempt\n";
 }
 
-DWORD WINAPI startMethodInThread(LPVOID arg)
+DWORD WINAPI PubSubHandler::startMethodInThread(LPVOID arg)
 {
 	if (!arg)
 		return 0;
@@ -66,23 +66,16 @@ DWORD PubSubHandler::Run(void)
 {	
 	DummyPublisher pub = DummyPublisher(this);
 	MouseController sub = MouseController(this);
-	this->AddSubscriber(&sub, MousePos);
-	int x;
-	int y;
+	sub.SubscribeToTopic(MousePos);
+	int x = 0;
+	int y = 0;
 	MousePosData mpd;
-	EventMessage em;
 
 	while (true) {
-		std::cout << "Enter new x coord: ";
-		OutputDebugStringW(L"Running handler\n");
-		std::cin >> x;
-		std::cout << "Enter new y coord: ";
+		//OutputDebugStringW(L"Running handler\n");
 		std::cin >> y;
 		mpd.x = x;
 		mpd.y = y;
-		//Bad
-		/*em.topic = MousePos;
-		em.data = &mpd;
-		pub.Publish(em);*/
+		
 	}
 }

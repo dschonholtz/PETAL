@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GUIPub.h"
 #include "ShellAPI.h"
+#include "DotTrainer.h"
 
 #define MAX_LOADSTRING 100
 #define GWL_HINSTANCE       (-6)
@@ -21,10 +22,15 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+HWND CreateButton(int x, int y, int width, int height, string buttonText, int ID, HWND, HWND);
+int BCX_Circle(HWND Wnd, int X, int Y, int R, int color, int Fill, HDC DrawHDC);
 bool OptiKeyActive = false;
 
 #define ID_OPTIKEYBUTTON 0x8801
 HWND optikeyButton;
+HWND trainingButton;
+#define ID_TRAININGBUTTON 0x8805
+PubSubHandler *pubSubHandler;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -35,8 +41,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	// TODO: Place code here.
-	PubSubHandler *pubSubHandler = new PubSubHandler();
+	pubSubHandler = new PubSubHandler();
 	pubSubHandler->StartThread();
+	
 	
 	// Initialize global strings
 	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -109,7 +116,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
 	hInst = hInstance; // Store instance handle in our global variable
 
-	HWND hWndMain = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+	 hWndMain = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
 	if (!hWndMain)
@@ -130,11 +137,29 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
 		NULL);      // Pointer not needed.
 
+	trainingButton = CreateWindow(
+		L"BUTTON",  // Predefined class; Unicode assumed 
+		L"Start Training",      // Button text 
+		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
+		50,         // x position 
+		200,         // y position 
+		100,        // Button width
+		100,        // Button height
+		hWndMain,     // Parent window
+		(HMENU)ID_TRAININGBUTTON,
+		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
+		NULL);      // Pointer not needed.
+
+	 //CreateButton(50, 200, 100, 100, "Start Training", ID_TRAININGBUTTON, trainingButton, hWndMain);
+
+
 	ShowWindow(hWndMain, nCmdShow);
 	UpdateWindow(hWndMain);
 
 	return TRUE;
 }
+
+DotTrainer* dt;
 
 //
 //  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
@@ -150,9 +175,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	TCHAR greeting[] = _T("Hello, Windows desktop!");
 	LPWSTR outputMsg = (LPWSTR)greeting;
-	if (OptiKeyActive) {
-		outputMsg = (LPWSTR)_T("Button pressed");
-	}
 
 	switch (message)
 	{
@@ -173,7 +195,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				startup(_T("C:\\Program Files (x86)\\OptiKey\\OptiKey.exe"));
 			}
 			OptiKeyActive = true;
-
+			break;
+		case ID_TRAININGBUTTON:
+			dt = new DotTrainer(pubSubHandler);
+			dt->StartThread();
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -225,4 +250,58 @@ VOID startup(LPCWSTR path)
 	std::cout << "in startup\n";
 	ShellExecute(NULL, _T("open"), path, NULL, NULL, SW_SHOWDEFAULT);
 	std::cout << "after attempt\n";
+}
+
+void CreateButton(int x, int y, int width, int height, wchar_t buttonText, int ID, HWND &button ,HWND &hWndMain) {
+	button = CreateWindow(
+		L"BUTTON",  // Predefined class; Unicode assumed 
+		(LPCWSTR)buttonText,      // Button text 
+		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
+		x,         // x position 
+		y,         // y position 
+		width,        // Button width
+		height,        // Button height
+		hWndMain,     // Parent window
+		(HMENU)ID,
+		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
+		NULL);      // Pointer not needed.
+}
+
+const int DOTRADIUS = 20;
+void AddDotToDisplay(int x, int y) {
+	BCX_Circle(hWndMain, x, y, DOTRADIUS, RGB(255,0,0), true, NULL);
+}
+
+void ClearDot(int x, int y) {
+	BCX_Circle(hWndMain, x, y, DOTRADIUS, RGB(255, 255, 255), true, NULL);
+}
+
+int BCX_Circle(HWND Wnd, int X, int Y, int R, int color, int Fill, HDC DrawHDC)
+{
+	int a, b = 0;
+	if (!DrawHDC)
+	{
+		DrawHDC = GetDC(Wnd);
+		b = 1;
+	}
+	HPEN   hNPen = CreatePen(PS_SOLID, 1, color);
+	HPEN   hOPen = (HPEN)SelectObject(DrawHDC, hNPen);
+	HBRUSH hOldBrush;
+	HBRUSH hNewBrush;
+	if (Fill)
+	{
+		hNewBrush = CreateSolidBrush(color);
+		hOldBrush = (HBRUSH)SelectObject(DrawHDC, hNewBrush);
+	}
+	else
+	{
+		hNewBrush = (HBRUSH)GetStockObject(NULL_BRUSH);
+		hOldBrush = (HBRUSH)SelectObject(DrawHDC, hNewBrush);
+	}
+	// Win API function
+	a = Ellipse(DrawHDC, X - R, Y + R, X + R, Y - R);
+	DeleteObject(SelectObject(DrawHDC, hOPen));
+	DeleteObject(SelectObject(DrawHDC, hOldBrush));
+	if (b) ReleaseDC(Wnd, DrawHDC);
+	return a;
 }

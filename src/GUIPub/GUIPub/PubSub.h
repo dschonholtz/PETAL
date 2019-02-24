@@ -6,8 +6,8 @@
 #include <list>
 #include <map>
 #include <queue>
-#include "subscriber.h"
-#include "publisher.h"
+#include "Subscriber.h"
+#include "Publisher.h"
 #include "eventData.h"
 
 using namespace std;
@@ -25,6 +25,7 @@ public:
 private:
 	map<EventTopic, list<Subscriber*>> topicSubscribers;
 	queue<EventMessage> messageQueue;
+	static DWORD WINAPI startMethodInThread(LPVOID arg);
 };
 
 
