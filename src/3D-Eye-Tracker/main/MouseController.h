@@ -1,6 +1,5 @@
 #pragma once
 #include <windows.h>
-#include "MouseController.h"
 #include "Subscriber.h"
 
 class MouseController: public Subscriber

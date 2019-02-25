@@ -19,7 +19,9 @@ void Subscriber::UnSubscribeToTopic(EventTopic t) {
 }
 
 EventMessage Subscriber::getTopMessage() {
-	return receivedMessageQueue.front();
+	EventMessage em = receivedMessageQueue.front();
+	receivedMessageQueue.pop();
+	return em;
 }
 
 void Subscriber::EmptyQueue() {

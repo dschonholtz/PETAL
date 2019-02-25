@@ -38,6 +38,7 @@
 #include "pubsub.h"
 #include "DummyPublisher.h"
 #include "MouseController.h"
+#include "NeuralNet.h"
 
 
  
@@ -210,6 +211,12 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 
 	MouseController sub = MouseController(pubSubHandler);
 	pubSubHandler->AddSubscriber(&sub, Eye);
+
+	NeuralNet neuralNet = NeuralNet(pubSubHandler);
+	pubSubHandler->AddSubscriber(&neuralNet, Eye);
+	pubSubHandler->AddSubscriber(&neuralNet, TurnTrainingOff);
+	pubSubHandler->AddSubscriber(&neuralNet, TrainingMousePos);
+	pubSubHandler->AddSubscriber(&neuralNet, AprilTag);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b

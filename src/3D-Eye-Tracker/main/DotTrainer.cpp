@@ -6,14 +6,9 @@
 #include <sstream>
 
 
-DotTrainer::DotTrainer(PubSubHandler *p) : Subscriber(p) {
-	this->SubscribeToTopic(AprilTag);
-	this->SubscribeToTopic(Eye);
+DotTrainer::DotTrainer(PubSubHandler *p) : Publisher(p) {
 	GetModuleFileName(NULL, cPath, _MAX_PATH);
 	srand(time(NULL));
-	ostringstream os;
-	os << "Training data #" << rand() % 100000 << ".txt";
-	fileName = os.str();
 }
 
 DotTrainer::~DotTrainer()
@@ -47,32 +42,24 @@ DWORD DotTrainer::Run()
 			//Create dot on GUI
 			dotX += GAP;
 			AddDotToDisplay(dotX, dotY);
-			this_thread::sleep_for(1s);
+			int sleep = 2000;
+			MousePosTraining mousePosTraining;
+			mousePosTraining.x = dotX;
+			mousePosTraining.y = dotY;
+			mousePosTraining.ms = sleep;
+			EventMessage eventMessage;
+			eventMessage.topic = TrainingMousePos;
+			eventMessage.data = &mousePosTraining;
+			Publish(eventMessage);
+			this_thread::sleep_for(std::chrono::milliseconds(sleep));
 			ClearDot(dotX, dotY);
 		}
 	}
+	EventMessage em;
+	em.topic = TurnTrainingOff;
+	bool data = true;
+	em.data = &data;
+	Publish(em);
 	trainingOn = false;
 	return 1;
-}
-
-void DotTrainer::WriteDataToFile(float eyeX, float eyeY) {
-	ofstream newFile;
-	newFile.open(fileName);
-	ostringstream line;
-	line << eyeX << ',' << eyeY << ',' << dotX << ',' << dotY << '\n';
-	newFile << line.str();
-	newFile.close();
-}
-
-void DotTrainer::readMessages() {
-	if (trainingOn) {
-		EventMessage em = DotTrainer::getTopMessage();
-		if (em.topic == Eye) {
-			EyeData * ed = static_cast<EyeData *>(em.data);
-			WriteDataToFile(ed->x, ed->y);
-		}
-	}
-	else {
-		DotTrainer::EmptyQueue();
-	}
 }

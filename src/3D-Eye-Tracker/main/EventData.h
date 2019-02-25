@@ -6,7 +6,9 @@
 enum EventTopic {
 	Eye,
 	AprilTag,
-	MousePos
+	MousePos,
+	TrainingMousePos,
+	TurnTrainingOff
 };
 
 struct EventMessage {
@@ -17,6 +19,12 @@ struct EventMessage {
 struct MousePosData {
 	int x;
 	int y;
+};
+
+struct MousePosTraining {
+	int x;
+	int y;
+	int ms;
 };
 
 struct EyeData {
