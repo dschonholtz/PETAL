@@ -5,6 +5,7 @@
 #include "GUIPub.h"
 #include "ShellAPI.h"
 #include "DotTrainer.h"
+#include <thread> 
 
 #define MAX_LOADSTRING 100
 #define GWL_HINSTANCE       (-6)
@@ -54,6 +55,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	{
 		return FALSE;
 	}
+	bool killSignal = false;
+	std::thread eyeTracker(eyeTrackerLoop, pubSubHandler, &killSignal);
 
 	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_GUIPUB));
 
@@ -69,7 +72,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			DispatchMessage(&msg);
 		}
 	}
-
+	killSignal = true;
+	eyeTracker.join();
 	return (int)msg.wParam;
 }
 

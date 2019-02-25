@@ -48,10 +48,7 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 }
 
 
-/*int main(int argc, char *argv[]){
-	
-	//pub sub declarations:
-	PubSubHandler *pubSubHandler = new PubSubHandler();
+int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 
 	// Variables for FPS
 	eye_tracker::FrameRateCounter frame_rate_counter;
@@ -71,24 +68,24 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 	std::string media_file;
 	std::string media_file_stem;
 	//std::string kOutputDataDirectory(kDir + "out/");	// Data output directroy
-	if (argc > 2) {
-		boost::filesystem::path file_name = std::string(argv[2]);
-		kDir = std::string(argv[1]);
-		media_file_stem = file_name.stem().string();
-		media_file = kDir + file_name.string();
-		//kOutputDataDirectory = kDir + "./";
-		std::cout << "Load " << media_file << std::endl;
-		std::string media_file_ext = file_name.extension().string();
+	//if (argc > 2) {
+	//	boost::filesystem::path file_name = std::string(argv[2]);
+	//	kDir = std::string(argv[1]);
+	//	media_file_stem = file_name.stem().string();
+	//	media_file = kDir + file_name.string();
+	//	//kOutputDataDirectory = kDir + "./";
+	//	std::cout << "Load " << media_file << std::endl;
+	//	std::string media_file_ext = file_name.extension().string();
 
-		if (media_file_ext == ".avi" ||
-			media_file_ext == ".mp4" ||
-			media_file_ext == ".wmv") {
-			input_mode = InputMode::VIDEO;
-		}else{
-			input_mode = InputMode::IMAGE;
-		}
-	}
-	else {
+	//	if (media_file_ext == ".avi" ||
+	//		media_file_ext == ".mp4" ||
+	//		media_file_ext == ".wmv") {
+	//		input_mode = InputMode::VIDEO;
+	//	}else{
+	//		input_mode = InputMode::IMAGE;
+	//	}
+	//}
+	//else {
 		if (input_mode == InputMode::IMAGE || input_mode == InputMode::VIDEO) {
 			switch (input_mode)
 			{
@@ -104,7 +101,7 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 				break;
 			}
 		}
-	}
+	//}
 	///////////////
 
 	
@@ -211,14 +208,13 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 	pupilFitter.setDebug(false);
 	/////////////////////////
 
-	//DummyPublisher pub = DummyPublisher(pubSubHandler);
 	MouseController sub = MouseController(pubSubHandler);
 	pubSubHandler->AddSubscriber(&sub, Eye);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b
 	bool is_run = true;
-	while (is_run) {
+	while (is_run && !(*killSignal)) {
 
 		// Fetch key input
 		char kKEY = 0;
@@ -325,4 +321,4 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 
 	return 0;
 
-}*/
+}

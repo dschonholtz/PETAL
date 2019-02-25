@@ -21,4 +21,5 @@
 #include "MouseController.h"
 #include "pubsub.h"
 
+int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal);
 // TODO: reference additional headers your program requires here
