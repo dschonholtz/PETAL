@@ -8,7 +8,8 @@ enum EventTopic {
 	AprilTag,
 	MousePos,
 	TrainingMousePos,
-	TurnTrainingOff
+	TurnTrainingOff,
+	LoadNeuralNetworkFromFile,
 };
 
 struct EventMessage {

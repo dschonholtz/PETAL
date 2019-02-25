@@ -13,10 +13,15 @@ private:
 	bool trainingOn = false;
 	int trainingMouseX;
 	int trainingMouseY;
+
+	struct fann *ann;
+	FANN::neural_net net;
 	std::vector<std::vector<double>> trainingData;
 
 	void writeMostRecentTrainingSetToFile();
 	void generateFannTrainingFile();
+	void trainNeuralNetwork();
+	void loadNeuralNetworkFromFile();
 
 public:
 
