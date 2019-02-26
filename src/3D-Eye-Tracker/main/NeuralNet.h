@@ -1,7 +1,7 @@
 #pragma once
 #include "Subscriber.h"
 #include "Publisher.h"
-#include <floatfann.h>
+#include <doublefann.h>
 #include <fann_cpp.h>
 
 class NeuralNet : public Subscriber, Publisher

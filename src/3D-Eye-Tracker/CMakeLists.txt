@@ -80,7 +80,7 @@ file(COPY ${SPII_INSTALL_DIR}/bin/spii.dll DESTINATION ${PROJECT_BINARY_DIR}/mai
 # Find FANN LIBS
 set(FANN_INCLUDE_DIRS ${FANN_INSTALL_DIR}/src/include)
 find_library (FANN_LIBRARY_RELEASE
-              fannfloat
+              fanndouble
               PATHS ${FANN_INSTALL_DIR}/VS2010/x64/Release)
 if (FANN_LIBRARY_RELEASE)
     set(FANN_LIBRARIES ${FANN_LIBRARY_RELEASE})
@@ -89,7 +89,7 @@ else()
 endif()
 message(STATUS "FANN_LIBRARIES:\"${FANN_LIBRARIES}\"")
 # copy dll
-file(COPY ${FANN_INSTALL_DIR}/VS2010/x64/Release/fannfloat.dll DESTINATION ${PROJECT_BINARY_DIR}/main)
+file(COPY ${FANN_INSTALL_DIR}/VS2010/x64/Release/fanndouble.dll DESTINATION ${PROJECT_BINARY_DIR}/main)
 
 # copy OpenCV dlls
 file(GLOB OPENCV_DLLS

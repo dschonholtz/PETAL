@@ -210,7 +210,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	/////////////////////////
 
 	MouseController sub = MouseController(pubSubHandler);
-	pubSubHandler->AddSubscriber(&sub, Eye);
+	pubSubHandler->AddSubscriber(&sub, MousePos);
 
 	NeuralNet neuralNet = NeuralNet(pubSubHandler);
 	pubSubHandler->AddSubscriber(&neuralNet, Eye);

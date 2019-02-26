@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include <floatfann.h>
+#include <doublefann.h>
 #include <fann_cpp.h>
 
 FANN::neural_net net;
@@ -29,20 +29,23 @@ void NeuralNet::readMessages() {
 			mostRecentTrainingSet[2] = eyeData.at(2); // z
 			mostRecentTrainingSet[3] = eyeData.at(3); // theta
 			mostRecentTrainingSet[4] = eyeData.at(4); // phi
-			recievedEyeData = true;
+			if (mostRecentTrainingSet[0] != 0 && mostRecentTrainingSet[1] != 0 && mostRecentTrainingSet[2] != 0 &&
+				mostRecentTrainingSet[3] != 0 && mostRecentTrainingSet[4] != 0) {
+				recievedEyeData = true;
+			}
 		}
 		else if (networkDoneTraining) {
-			// TODO Should bring in the double version of the fann lib or convert our values here to floats.
 			std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
-			vector<float> floats(eyeData.begin(), eyeData.end());
-			fann_type* arr = &floats[0];
-			fann_type* result = net.run(arr);
+			double* doubles = &eyeData[0];
+			net.scale_input(doubles);
+			fann_type* result = net.run(doubles);
+			net.descale_output(result);
 
 			EventMessage newMousePos;
 			newMousePos.topic = MousePos;
 			MousePosData mpd;
-			mpd.x = result[0];
-			mpd.y = result[1];
+			mpd.x = (int)result[0];
+			mpd.y = (int)result[1];
 			newMousePos.data = &mpd;
 			Publish(newMousePos);
 		}
@@ -103,12 +106,12 @@ void NeuralNet::trainNeuralNetwork() {
 //cout << endl << "Eye Tracking neuralNet started." << endl;
 
     const float learning_rate = 0.7f;
-    const unsigned int num_layers = 5;
-    const float desired_error = 30.00f;
+    const unsigned int num_layers = 3;
+    const float desired_error = 0.10f;
     const unsigned int max_iterations = 300000;
     const unsigned int iterations_between_reports = 1000;
 
-	unsigned int layers[5] = { 5, 8, 10, 9, 2 };
+	unsigned int layers[3] = { 5, 7, 2 };
     net.create_standard_array(num_layers, layers);
 
     net.set_learning_rate(learning_rate);
@@ -116,8 +119,8 @@ void NeuralNet::trainNeuralNetwork() {
     net.set_activation_steepness_hidden(1.0);
     net.set_activation_steepness_output(1.0);
     
-    net.set_activation_function_hidden(FANN::SIGMOID_SYMMETRIC_STEPWISE);
-    net.set_activation_function_output(FANN::SIGMOID_SYMMETRIC_STEPWISE);
+    net.set_activation_function_hidden(FANN::LINEAR);
+    net.set_activation_function_output(FANN::LINEAR);
 
     // Set additional properties such as the training algorithm
     //net.set_training_algorithm(FANN::TRAIN_QUICKPROP);
@@ -143,6 +146,9 @@ void NeuralNet::trainNeuralNetwork() {
     FANN::training_data data;
 	if (data.read_train_from_file("FannTrainingData.txt"))
 	{
+		net.set_scaling_params(data, -1, 1, -1, 1);
+		net.scale_train(data);
+		data.save_train("FannScaledTrainingData.data");
 		// Initialize and train the network with the data
 		net.init_weights(data);
 
