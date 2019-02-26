@@ -3,7 +3,7 @@
  @author Yuta Itoh <itoh@in.tum.de>, \n<a href="http://wwwnavab.in.tum.de/Main/YutaItoh">Homepage</a>.
 
 **/
-
+#pragma comment(lib, "../build/x64/Debug/MixedCode.lib")
 
 #include <iostream>
 #include <iomanip>
@@ -38,7 +38,7 @@
 #include "pubsub.h"
 #include "DummyPublisher.h"
 #include "MouseController.h"
-
+#include "../build/MixedCode/CppService.h"
 
  
 namespace {
@@ -46,13 +46,15 @@ namespace {
 enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 
 }
-
+using namespace std;
+using namespace MixedCode;
 
 int main(int argc, char *argv[]){
 	
 	//pub sub declarations:
 	PubSubHandler *pubSubHandler = new PubSubHandler();
-
+	CppService service;
+	service.process(123);
 	// Variables for FPS
 	eye_tracker::FrameRateCounter frame_rate_counter;
 
