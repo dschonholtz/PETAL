@@ -32,17 +32,17 @@ void DotTrainer::StartThread(void)
 DWORD DotTrainer::Run()
 {	
 	trainingOn = true;
-	dotX = 200;
+	dotX = 50;
 	dotY = 50;
 	int GAP = 100;
 	for (int i = 0; i < 5; i++) {
 		dotY += GAP;
 		dotX = 200;
-		for (int j = 0; j < 5; j++) {
+		for (int j = 0; j < 10; j++) {
 			//Create dot on GUI
 			dotX += GAP;
 			AddDotToDisplay(dotX, dotY);
-			int sleep = 2000;
+			int sleep = 500;
 			MousePosTraining mousePosTraining;
 			mousePosTraining.x = dotX;
 			mousePosTraining.y = dotY;

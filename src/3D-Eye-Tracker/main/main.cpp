@@ -276,7 +276,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 			bool is_reliable = false;
 			bool is_added = false;
 			const bool force_add = false;
-			const double kReliabilityThreshold = 0.8;// 0.96;
+			const double kReliabilityThreshold = 0.96;// 0.96;
 			double ellipse_realiability = 0.0; /// Reliability of a detected 2D ellipse based on 3D eye model
 			if (is_pupil_found) {
 				if (eye_model_updaters[cam]->is_model_built()) {
