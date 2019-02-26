@@ -7,6 +7,8 @@
 #include <floatfann.h>
 #include <fann_cpp.h>
 
+FANN::neural_net net;
+
 // Callback function that simply prints the information to cout
 int print_callback(FANN::neural_net &net, FANN::training_data &train,
 	unsigned int max_epochs, unsigned int epochs_between_reports,
@@ -22,12 +24,27 @@ void NeuralNet::readMessages() {
 	if (em.topic == Eye) {
 		if (trainingOn) {
 			std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
-			mostRecentTrainingSet[2] = eyeData.at(0); // x
-			mostRecentTrainingSet[3] = eyeData.at(1); // y
-			mostRecentTrainingSet[4] = eyeData.at(2); // z
-			mostRecentTrainingSet[5] = eyeData.at(3); // theta
-			mostRecentTrainingSet[6] = eyeData.at(4); // phi
+			mostRecentTrainingSet[0] = eyeData.at(0); // x
+			mostRecentTrainingSet[1] = eyeData.at(1); // y
+			mostRecentTrainingSet[2] = eyeData.at(2); // z
+			mostRecentTrainingSet[3] = eyeData.at(3); // theta
+			mostRecentTrainingSet[4] = eyeData.at(4); // phi
 			recievedEyeData = true;
+		}
+		else if (networkDoneTraining) {
+			// TODO Should bring in the double version of the fann lib or convert our values here to floats.
+			std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
+			vector<float> floats(eyeData.begin(), eyeData.end());
+			fann_type* arr = &floats[0];
+			fann_type* result = net.run(arr);
+
+			EventMessage newMousePos;
+			newMousePos.topic = MousePos;
+			MousePosData mpd;
+			mpd.x = result[0];
+			mpd.y = result[1];
+			newMousePos.data = &mpd;
+			Publish(newMousePos);
 		}
 	}
 	else if (em.topic == AprilTag) {
@@ -55,14 +72,17 @@ void NeuralNet::readMessages() {
 		generateFannTrainingFile();
 		trainNeuralNetwork();
 	}
+	else if (em.topic == LoadNeuralNetworkFromFile) {
+		loadNeuralNetworkFromFile();
+	}
 	if (recievedEyeData && 
 		//recievedAprilTagData &&
 		trainingOn) {
 		recievedEyeData = false;
 		recievedAprilTagData = false;
 
-		mostRecentTrainingSet[0] = trainingMouseX;
-		mostRecentTrainingSet[1] = trainingMouseY;
+		mostRecentTrainingSet[5] = trainingMouseX;
+		mostRecentTrainingSet[6] = trainingMouseY;
 		this->writeMostRecentTrainingSetToFile();
 		trainingData.push_back(mostRecentTrainingSet);
 	}
@@ -128,6 +148,7 @@ void NeuralNet::trainNeuralNetwork() {
 
 		net.train_on_data(data, max_iterations,
 			iterations_between_reports, desired_error);
+		networkDoneTraining = true;
 
 		for (unsigned int i = 0; i < data.length_train_data(); ++i)
 		{
@@ -145,13 +166,14 @@ void NeuralNet::trainNeuralNetwork() {
 
 		// Save the network in floating point and fixed point
 		net.save("FannNetwork.net");
-		unsigned int decimal_point = net.save_to_fixed("FannTrainingData.net");
-		data.save_train_to_fixed("FannTrainingData_fixed.data", decimal_point);
+		//unsigned int decimal_point = net.save_to_fixed("FannTrainingFixed.net");
+		//data.save_train_to_fixed("FannTrainingData_fixed.data", decimal_point);
 	}
 }
 
 void NeuralNet::loadNeuralNetworkFromFile() {
 	net.create_from_file("FannNetwork.net");
+	networkDoneTraining = true;
 }
 
 void NeuralNet::generateFannTrainingFile() {
@@ -159,10 +181,10 @@ void NeuralNet::generateFannTrainingFile() {
 	outfile.open("FannTrainingData.txt");
 	outfile << trainingData.size() << ' ' << 5 << ' ' << 2 << endl;
 	for (std::vector<vector<double>>::size_type i = 0; i != trainingData.size(); i++) {
-		for (std::vector<double>::size_type i = 0; i != mostRecentTrainingSet.size(); i++) {
-			double data = mostRecentTrainingSet.at(i);
+		for (std::vector<double>::size_type j = 0; j != mostRecentTrainingSet.size(); j++) {
+			double data = trainingData.at(i).at(j);
 			outfile << data << ' ';	
-			if (i == 1) {
+			if (j == 4) {
 				outfile << endl;
 			}
 		}

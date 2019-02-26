@@ -217,6 +217,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	pubSubHandler->AddSubscriber(&neuralNet, TurnTrainingOff);
 	pubSubHandler->AddSubscriber(&neuralNet, TrainingMousePos);
 	pubSubHandler->AddSubscriber(&neuralNet, AprilTag);
+	pubSubHandler->AddSubscriber(&neuralNet, LoadNeuralNetworkFromFile);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b

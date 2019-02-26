@@ -6,6 +6,7 @@
 #include "ShellAPI.h"
 #include "DotTrainer.h"
 #include <thread> 
+#include "DummyPublisher.h"
 
 #define MAX_LOADSTRING 100
 #define GWL_HINSTANCE       (-6)
@@ -29,9 +30,16 @@ bool OptiKeyActive = false;
 
 #define ID_OPTIKEYBUTTON 0x8801
 HWND optikeyButton;
+
 HWND trainingButton;
 #define ID_TRAININGBUTTON 0x8805
+
+HWND loadFromFileButton;
+#define ID_LOADFROMFILEBUTTON 0x8809
+
 PubSubHandler *pubSubHandler;
+DotTrainer* dt;
+DummyPublisher* dp;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -43,6 +51,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// TODO: Place code here.
 	pubSubHandler = new PubSubHandler();
+	dp = new DummyPublisher(pubSubHandler);
 	
 	
 	// Initialize global strings
@@ -155,6 +164,19 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
 		NULL);      // Pointer not needed.
 
+	loadFromFileButton = CreateWindow(
+		"BUTTON",  // Predefined class; Unicode assumed 
+		"Load From File",      // Button text 
+		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
+		50,         // x position 
+		350,         // y position 
+		100,        // Button width
+		50,        // Button height
+		hWndMain,     // Parent window
+		(HMENU)ID_LOADFROMFILEBUTTON,
+		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
+		NULL);      // Pointer not needed.
+
 	 //CreateButton(50, 200, 100, 100, "Start Training", ID_TRAININGBUTTON, trainingButton, hWndMain);
 
 
@@ -163,8 +185,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	return TRUE;
 }
-
-DotTrainer* dt;
 
 //
 //  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
@@ -204,6 +224,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case ID_TRAININGBUTTON:
 			dt = new DotTrainer(pubSubHandler);
 			dt->StartThread();
+			break;
+		case ID_LOADFROMFILEBUTTON:
+			EventMessage em;
+			em.topic = LoadNeuralNetworkFromFile;
+			//em.data = &stuff;
+			dp->Publish(em);
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);

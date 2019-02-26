@@ -1,7 +1,10 @@
 #pragma once
 #include "Subscriber.h"
+#include "Publisher.h"
+#include <floatfann.h>
+#include <fann_cpp.h>
 
-class NeuralNet : public Subscriber
+class NeuralNet : public Subscriber, Publisher
 {
 	// https://docs.microsoft.com/en-us/windows/desktop/menurc/using-cursors
 
@@ -11,11 +14,13 @@ private:
 	bool recievedEyeData;
 	bool recievedAprilTagData;
 	bool trainingOn = false;
+
+	bool networkDoneTraining = false;
+
 	int trainingMouseX;
 	int trainingMouseY;
 
 	struct fann *ann;
-	FANN::neural_net net;
 	std::vector<std::vector<double>> trainingData;
 
 	void writeMostRecentTrainingSetToFile();
@@ -25,7 +30,7 @@ private:
 
 public:
 
-	NeuralNet::NeuralNet(PubSubHandler* p) : Subscriber(p) {
+	NeuralNet::NeuralNet(PubSubHandler* p) : Subscriber(p), Publisher(p) {
 		vector<double> vect(7, 0);
 		mostRecentTrainingSet = vect;
 	}
