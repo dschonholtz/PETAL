@@ -144,8 +144,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 		50,         // x position 
 		50,         // y position 
-		100,        // Button width
-		100,        // Button height
+		50,        // Button width
+		50,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_OPTIKEYBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
@@ -157,8 +157,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 		50,         // x position 
 		200,         // y position 
-		100,        // Button width
-		100,        // Button height
+		50,        // Button width
+		50,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_TRAININGBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
@@ -170,7 +170,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 		50,         // x position 
 		350,         // y position 
-		100,        // Button width
+		50,        // Button width
 		50,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_LOADFROMFILEBUTTON,

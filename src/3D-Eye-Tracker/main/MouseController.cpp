@@ -29,8 +29,8 @@ MousePosData MouseController::calculateNewMousePos(MousePosData * mpd) {
 	POINT currentMousePos;
 	GetCursorPos(&currentMousePos);
 
-	newPoint.x = (sumX+(currentMousePos.x*recievedMousePositions.size())) / (recievedMousePositions.size()*2);
-	newPoint.y = (sumY + (currentMousePos.y*recievedMousePositions.size())) / (recievedMousePositions.size()*2);
+	newPoint.x = (sumX+(currentMousePos.x*recievedMousePositions.size()*3)) / (recievedMousePositions.size()*4);
+	newPoint.y = (sumY + (currentMousePos.y*recievedMousePositions.size()*3)) / (recievedMousePositions.size()*4);
 	return newPoint;
 }
 

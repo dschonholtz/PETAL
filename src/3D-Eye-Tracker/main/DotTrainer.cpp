@@ -33,12 +33,12 @@ DWORD DotTrainer::Run()
 {	
 	trainingOn = true;
 	dotX = 50;
-	dotY = 50;
+	dotY = 25;
 	int GAP = 100;
 	for (int i = 0; i < 5; i++) {
 		dotY += GAP;
-		dotX = 200;
-		for (int j = 0; j < 10; j++) {
+		dotX = 50;
+		for (int j = 0; j < 12; j++) {
 			//Create dot on GUI
 			dotX += GAP;
 			AddDotToDisplay(dotX, dotY);
