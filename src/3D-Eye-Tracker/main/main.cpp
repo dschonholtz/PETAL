@@ -3,7 +3,7 @@
  @author Yuta Itoh <itoh@in.tum.de>, \n<a href="http://wwwnavab.in.tum.de/Main/YutaItoh">Homepage</a>.
 
 **/
-#pragma comment(lib, "../build/x64/Debug/MixedCode.lib")
+#pragma comment(lib, "C:/Users/Dillon/Documents/Capstone/PETAL_MASTER_V1/PETAL/src/3D-Eye-Tracker/build/x64/Debug/MixedCode.lib")
 
 #include <iostream>
 #include <iomanip>
