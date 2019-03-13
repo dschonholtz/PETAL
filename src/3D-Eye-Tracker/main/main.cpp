@@ -3,7 +3,7 @@
  @author Yuta Itoh <itoh@in.tum.de>, \n<a href="http://wwwnavab.in.tum.de/Main/YutaItoh">Homepage</a>.
 
 **/
-#pragma comment(lib, "C:/Users/Dillon/Documents/Capstone/PETAL_MASTER_V1/PETAL/src/3D-Eye-Tracker/build/x64/Debug/MixedCode.lib")
+//#pragma comment(lib, "C:/Users/Dillon/Documents/Capstone/PETAL_MASTER_V1/PETAL/src/3D-Eye-Tracker/build/x64/Debug/MixedCode.lib")
 
 #include <iostream>
 #include <iomanip>
@@ -38,7 +38,8 @@
 #include "pubsub.h"
 #include "DummyPublisher.h"
 #include "MouseController.h"
-#include "../build/MixedCode/CppService.h"
+
+#include "head_tracker.h"
 
  
 namespace {
@@ -47,14 +48,11 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 
 }
 using namespace std;
-using namespace MixedCode;
 
 int main(int argc, char *argv[]){
 	
 	//pub sub declarations:
 	PubSubHandler *pubSubHandler = new PubSubHandler();
-	CppService service;
-	service.process(123);
 	// Variables for FPS
 	eye_tracker::FrameRateCounter frame_rate_counter;
 
@@ -230,6 +228,9 @@ int main(int argc, char *argv[]){
 	//em.data = &mpd;
 	//pub.Publish(em);
 
+	// Head tracker
+	HeadTracker head(false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false);
+
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b
 	bool is_run = true;
@@ -335,6 +336,9 @@ int main(int argc, char *argv[]){
 			std::cout << "Frame #" << frame_rate_counter.frame_count() << ", FPS=" << frame_rate_counter.fps() << std::endl;
 			ss = 0;
 		}
+
+		// Track head
+		head.updatePosition();
 
 	}// Main capture loop
 

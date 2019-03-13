@@ -9,6 +9,9 @@ include_directories (
   ${CERES_INCLUDE_DIRS}
   ${spii_INCLUDE_DIRS}
   "../singleeyefitter"
+  "../HeadTracker"
+  "../HeadTracker/AprilTag/apriltag-2016-12-01"
+  "../HeadTracker/AprilTag/apriltag-2016-12-01/common"
 )
 
 
@@ -16,12 +19,14 @@ file (GLOB SRCS
   "*.cpp" 
   "../external/DirectShowFrameGrabber/*.cpp"
   "../external/DirectShowFrameGrabber/*.c"
+  "../HeadTracker/head_tracker.cpp"
   # "external/DirectShowFrameGrabber/*.idl"pupillabs
   )
 
 file (GLOB HEADERS 
   *.h *.hpp 
   "../external/DirectShowFrameGrabber/*.h"
+  "../HeadTracker/head_tracker.h"
   )
 
 
@@ -33,4 +38,5 @@ target_link_libraries( main
 		       ${Boost_LIBRARIES}
            ${spii_LIBRARIES}
            "singleeyefitter"
+		   APRILTAG_LIBRARY
            )

@@ -94,3 +94,4 @@ message(STATUS "")
 
 add_subdirectory (main)
 add_subdirectory (singleeyefitter)
+add_subdirectory (HeadTracker)
