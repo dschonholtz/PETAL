@@ -25,7 +25,7 @@ HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, 
 	//	getopt_do_usage(getopt);
 	//	exit(0);
 	//}
-	if (!cap.open(0)) {  // open and check if succeeded
+	if (!cap.open(1)) {  // open and check if succeeded
 		throw "Couldn't open cap\n";
 		return;
 	};
@@ -180,7 +180,7 @@ void HeadTracker::updatePosition()
 
 		EventMessage msg;
 		msg.data = static_cast<void*>(&vectPose[0]);
-		msg.topic = AprilTagData;
+		msg.topic = AprilTag;
 		HeadTracker::Publish(msg);
 
 		std::stringstream ss;

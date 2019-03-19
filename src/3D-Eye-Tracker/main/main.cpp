@@ -41,7 +41,6 @@
 #include "head_tracker.h"
 
 #include "NeuralNet.h"
-#include "../build/MixedCode/CppService.h"
 
  
 namespace {
@@ -155,8 +154,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 		{
 		case InputMode::IMAGE:
 			eyecams[0] = std::make_unique<eye_tracker::EyeCamera>(media_file, false);
-			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, 
-      );
+			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Video/Image" };
 			file_stems = { media_file_stem };
