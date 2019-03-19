@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\SingleEyeFitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\cvx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{397F6526-A8B8-39E5-923F-EC4E2A57B827}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

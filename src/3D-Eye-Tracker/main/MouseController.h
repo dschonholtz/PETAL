@@ -1,6 +1,5 @@
 #pragma once
 #include <windows.h>
-#include "MouseController.h"
 #include "Subscriber.h"
 
 class MouseController: public Subscriber
@@ -11,8 +10,12 @@ class MouseController: public Subscriber
 public:
 	MouseController(PubSubHandler* p) : Subscriber(p){
 	}
+	vector<MousePosData*> recievedMousePositions;
+	MousePosData currentMousePosition;
+	int maxMouseMovementDistance = 10;
 	void receiveMessage(EventMessage e);
 	virtual void readMessages();
 	// Member Functions() 
 	void setCursorPosition(int x, int y);
+	MousePosData calculateNewMousePos(MousePosData * newMousePos);
 };

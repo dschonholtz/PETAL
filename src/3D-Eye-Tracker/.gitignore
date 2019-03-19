@@ -21,6 +21,9 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+[Ee]xternal/opencv/
+[Ee]xternal/boost_1_62_0/
+
 
 # Visual Studio 2015 cache/options directory
 .vs/

@@ -1,5 +1,7 @@
 #include "stdafx.h"
-//#include "Dummies.h"
+#include "pubsub.h"
+#include "DummyPublisher.h"
+#include "MouseController.h"
 
 PubSubHandler::PubSubHandler() {
 }
