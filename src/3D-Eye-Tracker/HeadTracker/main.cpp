@@ -2,7 +2,7 @@
 
 int main()
 {
-    HeadTracker tracker(false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false);
+ /*   HeadTracker tracker(false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false);
 
     while (true)
     {
@@ -12,7 +12,7 @@ int main()
         {
             break;
         }
-    }
+    }*/
 
     return 0;
 }

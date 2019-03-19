@@ -229,7 +229,7 @@ int main(int argc, char *argv[]){
 	//pub.Publish(em);
 
 	// Head tracker
-	HeadTracker head(false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false);
+	HeadTracker head(false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b

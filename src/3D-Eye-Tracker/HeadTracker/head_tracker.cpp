@@ -1,7 +1,9 @@
 #include "head_tracker.h"
+#include <vector> 
 
 // Constructor
-HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, int threads, double decimate, double blur, bool refine_edges, bool refine_decode, bool refine_pose) : cap(0)
+//HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, int threads, double decimate, double blur, bool refine_edges, bool refine_decode, bool refine_pose, PubSubHandler* p) : cap(0)
+HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, int threads, double decimate, double blur, bool refine_edges, bool refine_decode, bool refine_pose, PubSubHandler* p) : Publisher(p)
 {
 	//getopt_t *getopt = getopt_create();
 
@@ -23,12 +25,15 @@ HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, 
 	//	getopt_do_usage(getopt);
 	//	exit(0);
 	//}
-
+	if (!cap.open(0)) {  // open and check if succeeded
+		throw "Couldn't open cap\n";
+		return;
+	};
 	// Initialize camera
 	if (!cap.isOpened()) {
 		throw "Couldn't open video capture device";
+		return;
 	}
-
 	// Initialize tag detector with options
 	tf = NULL;
 	famname = family;
@@ -101,15 +106,15 @@ void HeadTracker::updatePosition()
 	cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
 
 	// Make an image_u8_t header for the Mat data
-	#ifdef _MSC_VER
-		image_u8_t im{ gray.cols, gray.rows, gray.cols, gray.data };
-	#else
-		image_u8_t im = { .width = gray.cols,
-			.height = gray.rows,
-			.stride = gray.cols,
-			.buf = gray.data
-		};
-	#endif
+#ifdef _MSC_VER
+	image_u8_t im{ gray.cols, gray.rows, gray.cols, gray.data };
+#else
+	image_u8_t im = { .width = gray.cols,
+		.height = gray.rows,
+		.stride = gray.cols,
+		.buf = gray.data
+	};
+#endif
 
 	zarray_t *detections = apriltag_detector_detect(td, &im);
 	//cout << zarray_size(detections) << " tags detected" << endl;
@@ -164,6 +169,19 @@ void HeadTracker::updatePosition()
 		R = U * Vt;
 		std::cout << "R (after polar decomposition):\n" << R << "\ndet(R): " << determinant(R) << std::endl;
 		std::cout << "tvec: \n" << tvec << std::endl;
+		pose = R;
+
+		for (int j = 0; j < 3; j++) 
+		{
+			vectPose.push_back(R.at<double>(i, 0));
+			vectPose.push_back(R.at<double>(i, 1));
+			vectPose.push_back(R.at<double>(i, 2));
+		}
+
+		EventMessage msg;
+		msg.data = static_cast<void*>(&vectPose[0]);
+		msg.topic = AprilTagData;
+		HeadTracker::Publish(msg);
 
 		std::stringstream ss;
 		ss << det->id;
@@ -181,3 +199,10 @@ void HeadTracker::updatePosition()
 	cv::imshow("Tag Detections", frame);
 	return;
 }
+
+void HeadTracker::Publish(EventMessage e)
+{
+	Publisher::Publish(e);
+}
+
+
