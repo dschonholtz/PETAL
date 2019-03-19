@@ -3,7 +3,7 @@
  @author Yuta Itoh <itoh@in.tum.de>, \n<a href="http://wwwnavab.in.tum.de/Main/YutaItoh">Homepage</a>.
 
 **/
-
+#pragma comment(lib, "C:/Users/Dillon/Documents/Capstone/PETAL_MASTER_V1/PETAL/src/3D-Eye-Tracker/build/x64/Debug/MixedCode.lib")
 
 #include <iostream>
 #include <iomanip>
@@ -39,7 +39,7 @@
 #include "DummyPublisher.h"
 #include "MouseController.h"
 #include "NeuralNet.h"
-
+#include "../build/MixedCode/CppService.h"
 
  
 namespace {
@@ -47,10 +47,10 @@ namespace {
 enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 
 }
-
+using namespace std;
+using namespace MixedCode;
 
 int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
-
 	// Variables for FPS
 	eye_tracker::FrameRateCounter frame_rate_counter;
 
@@ -154,7 +154,8 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 		{
 		case InputMode::IMAGE:
 			eyecams[0] = std::make_unique<eye_tracker::EyeCamera>(media_file, false);
-			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
+			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, 
+      );
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Video/Image" };
 			file_stems = { media_file_stem };
