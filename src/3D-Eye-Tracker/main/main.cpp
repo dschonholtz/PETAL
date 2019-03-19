@@ -3,7 +3,7 @@
  @author Yuta Itoh <itoh@in.tum.de>, \n<a href="http://wwwnavab.in.tum.de/Main/YutaItoh">Homepage</a>.
 
 **/
-#pragma comment(lib, "C:/Users/Dillon/Documents/Capstone/PETAL_MASTER_V1/PETAL/src/3D-Eye-Tracker/build/x64/Debug/MixedCode.lib")
+//#pragma comment(lib, "C:/Users/Dillon/Documents/Capstone/PETAL_MASTER_V1/PETAL/src/3D-Eye-Tracker/build/x64/Debug/MixedCode.lib")
 
 #include <iostream>
 #include <iomanip>
@@ -38,6 +38,8 @@
 #include "pubsub.h"
 #include "DummyPublisher.h"
 #include "MouseController.h"
+#include "head_tracker.h"
+
 #include "NeuralNet.h"
 #include "../build/MixedCode/CppService.h"
 
@@ -48,7 +50,6 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 
 }
 using namespace std;
-using namespace MixedCode;
 
 int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	// Variables for FPS
@@ -220,6 +221,9 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	pubSubHandler->AddSubscriber(&neuralNet, AprilTag);
 	pubSubHandler->AddSubscriber(&neuralNet, LoadNeuralNetworkFromFile);
 
+	// Head tracker
+	HeadTracker head(false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
+
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b
 	bool is_run = true;
@@ -325,6 +329,9 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 			std::cout << "Frame #" << frame_rate_counter.frame_count() << ", FPS=" << frame_rate_counter.fps() << std::endl;
 			ss = 0;
 		}
+
+		// Track head
+		head.updatePosition();
 
 	}// Main capture loop
 
