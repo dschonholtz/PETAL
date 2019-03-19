@@ -8,6 +8,7 @@ include_directories (
   ${EIGEN3_INCLUDE_DIR}
   ${CERES_INCLUDE_DIRS}
   ${spii_INCLUDE_DIRS}
+  ${FANN_INCLUDE_DIRS}
   "../singleeyefitter"
   "../HeadTracker"
   "../HeadTracker/AprilTag/apriltag-2016-12-01"
@@ -37,6 +38,7 @@ target_link_libraries( main
 		       ${Boost_SYSTEM_LIBRARY}
 		       ${Boost_LIBRARIES}
            ${spii_LIBRARIES}
+           ${FANN_LIBRARIES}
            "singleeyefitter"
 		   APRILTAG_LIBRARY
            )

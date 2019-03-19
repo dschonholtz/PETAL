@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D58C041E-EF51-306D-9162-272C85687F6E}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>singleeyefitter</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\singleeyefitter\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">singleeyefitter.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">singleeyefitter</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\singleeyefitter\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">singleeyefitter.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">singleeyefitter</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\singleeyefitter\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">singleeyefitter.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">singleeyefitter</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\singleeyefitter\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">singleeyefitter.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">singleeyefitter</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;NOMINMAX;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\boost_1_62_0;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\opencv\build\include\opencv;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Eigen-3.2.7;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\Ceres-1.11\include\ceres\internal\miniglog;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\external\spii-3.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/singleeyefitter/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker -BC:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/build --check-stamp-file C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/build/singleeyefitter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/singleeyefitter/CMakeLists.txt;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\singleeyefitter\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/singleeyefitter/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker -BC:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/build --check-stamp-file C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/build/singleeyefitter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/singleeyefitter/CMakeLists.txt;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\singleeyefitter\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/singleeyefitter/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker -BC:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/build --check-stamp-file C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/build/singleeyefitter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/singleeyefitter/CMakeLists.txt;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\singleeyefitter\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/singleeyefitter/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker -BC:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/build --check-stamp-file C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/build/singleeyefitter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:/Users/Devin/Repo/PETAL/src/3D-Eye-Tracker/singleeyefitter/CMakeLists.txt;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt;C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\singleeyefitter\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\SingleEyeFitter.cpp" />
+    <ClCompile Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\cvx.cpp" />
+    <ClCompile Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\singleeyefitter\utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\Devin\Repo\PETAL\src\3D-Eye-Tracker\build\ZERO_CHECK.vcxproj">
+      <Project>{83E7F726-5385-3F07-88A8-30377C0C7093}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

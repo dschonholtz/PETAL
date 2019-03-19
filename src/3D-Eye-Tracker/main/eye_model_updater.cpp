@@ -224,18 +224,17 @@ singleeyefitter::EyeModelFitter::Circle  EyeModelUpdater::unproject(cv::Mat &img
 		// Unproject the current 2D ellipse observations
 		singleeyefitter::EyeModelFitter::Observation curr_obs(img, el, inlier_pts);
 		singleeyefitter::EyeModelFitter::Pupil curr_pupil(curr_obs);
-//		try{
-//			if (curr_pupil.init_valid){
-				//			singleeyefitter::EyeModelFitter::Circle curr_circle =
+		try{
+			if (curr_pupil.init_valid){
+							//singleeyefitter::EyeModelFitter::Circle curr_circle =
 				simple_fitter_.unproject_single_observation(curr_pupil, simple_fitter_.eye.radius);
 				singleeyefitter::EyeModelFitter::Circle curr_circle = simple_fitter_.initialise_single_observation(curr_pupil);
 
 				return curr_circle;
-//			}
-		//}
-		//catch (...){
-		//	return singleeyefitter::EyeModelFitter::Circle::Null;
-		//}
+			}
+		}catch (...){
+			return singleeyefitter::EyeModelFitter::Circle::Null;
+		}
 	}
 	return singleeyefitter::EyeModelFitter::Circle::Null;
 }
@@ -321,7 +320,7 @@ void EyeModelUpdater::render(cv::Mat &img, sef::Ellipse2D<double> &el, std::vect
 			}
 			// do the publish of the vector:
 			EventMessage eventMessage;
-			eventMessage.topic = EyeData;
+			eventMessage.topic = Eye;
 			eventMessage.data = &gaze_dir;
 			Publish(eventMessage);
 

@@ -38,8 +38,10 @@
 #include "pubsub.h"
 #include "DummyPublisher.h"
 #include "MouseController.h"
-
 #include "head_tracker.h"
+
+#include "NeuralNet.h"
+#include "../build/MixedCode/CppService.h"
 
  
 namespace {
@@ -49,10 +51,7 @@ enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 }
 using namespace std;
 
-int main(int argc, char *argv[]){
-	
-	//pub sub declarations:
-	PubSubHandler *pubSubHandler = new PubSubHandler();
+int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	// Variables for FPS
 	eye_tracker::FrameRateCounter frame_rate_counter;
 
@@ -71,24 +70,24 @@ int main(int argc, char *argv[]){
 	std::string media_file;
 	std::string media_file_stem;
 	//std::string kOutputDataDirectory(kDir + "out/");	// Data output directroy
-	if (argc > 2) {
-		boost::filesystem::path file_name = std::string(argv[2]);
-		kDir = std::string(argv[1]);
-		media_file_stem = file_name.stem().string();
-		media_file = kDir + file_name.string();
-		//kOutputDataDirectory = kDir + "./";
-		std::cout << "Load " << media_file << std::endl;
-		std::string media_file_ext = file_name.extension().string();
+	//if (argc > 2) {
+	//	boost::filesystem::path file_name = std::string(argv[2]);
+	//	kDir = std::string(argv[1]);
+	//	media_file_stem = file_name.stem().string();
+	//	media_file = kDir + file_name.string();
+	//	//kOutputDataDirectory = kDir + "./";
+	//	std::cout << "Load " << media_file << std::endl;
+	//	std::string media_file_ext = file_name.extension().string();
 
-		if (media_file_ext == ".avi" ||
-			media_file_ext == ".mp4" ||
-			media_file_ext == ".wmv") {
-			input_mode = InputMode::VIDEO;
-		}else{
-			input_mode = InputMode::IMAGE;
-		}
-	}
-	else {
+	//	if (media_file_ext == ".avi" ||
+	//		media_file_ext == ".mp4" ||
+	//		media_file_ext == ".wmv") {
+	//		input_mode = InputMode::VIDEO;
+	//	}else{
+	//		input_mode = InputMode::IMAGE;
+	//	}
+	//}
+	//else {
 		if (input_mode == InputMode::IMAGE || input_mode == InputMode::VIDEO) {
 			switch (input_mode)
 			{
@@ -104,7 +103,7 @@ int main(int argc, char *argv[]){
 				break;
 			}
 		}
-	}
+	//}
 	///////////////
 
 	
@@ -156,7 +155,8 @@ int main(int argc, char *argv[]){
 		{
 		case InputMode::IMAGE:
 			eyecams[0] = std::make_unique<eye_tracker::EyeCamera>(media_file, false);
-			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
+			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, 
+      );
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Video/Image" };
 			file_stems = { media_file_stem };
@@ -211,22 +211,15 @@ int main(int argc, char *argv[]){
 	pupilFitter.setDebug(false);
 	/////////////////////////
 
-	//DummyPublisher pub = DummyPublisher(pubSubHandler);
 	MouseController sub = MouseController(pubSubHandler);
-	pubSubHandler->AddSubscriber(&sub, EyeData);
-	//int x;
-	//int y;
-	//MousePosData mpd;
-	//EventMessage em;
-	//std::cout << "Enter new x coord: ";
-	//std::cin >> x;
-	//std::cout << "Enter new y coord: ";
-	//std::cin >> y;
-	//mpd.x = x;
-	//mpd.y = y;
-	//em.topic = MousePos;
-	//em.data = &mpd;
-	//pub.Publish(em);
+	pubSubHandler->AddSubscriber(&sub, MousePos);
+
+	NeuralNet neuralNet = NeuralNet(pubSubHandler);
+	pubSubHandler->AddSubscriber(&neuralNet, Eye);
+	pubSubHandler->AddSubscriber(&neuralNet, TurnTrainingOff);
+	pubSubHandler->AddSubscriber(&neuralNet, TrainingMousePos);
+	pubSubHandler->AddSubscriber(&neuralNet, AprilTag);
+	pubSubHandler->AddSubscriber(&neuralNet, LoadNeuralNetworkFromFile);
 
 	// Head tracker
 	HeadTracker head(false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
@@ -234,7 +227,7 @@ int main(int argc, char *argv[]){
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b
 	bool is_run = true;
-	while (is_run) {
+	while (is_run && !(*killSignal)) {
 
 		// Fetch key input
 		char kKEY = 0;
@@ -288,7 +281,7 @@ int main(int argc, char *argv[]){
 			bool is_reliable = false;
 			bool is_added = false;
 			const bool force_add = false;
-			const double kReliabilityThreshold = 0.8;// 0.96;
+			const double kReliabilityThreshold = 0.96;// 0.96;
 			double ellipse_realiability = 0.0; /// Reliability of a detected 2D ellipse based on 3D eye model
 			if (is_pupil_found) {
 				if (eye_model_updaters[cam]->is_model_built()) {

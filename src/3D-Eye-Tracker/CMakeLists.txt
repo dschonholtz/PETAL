@@ -15,7 +15,7 @@ set(SPII_INSTALL_DIR   "${PROJECT_SOURCE_DIR}/external/spii-3.0.0")
 set(EIGEN_INCLUDE_DIR  "${PROJECT_SOURCE_DIR}/external/Eigen-3.2.7")
 set(EIGEN3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/external/Eigen-3.2.7")
 
-
+set(FANN_INSTALL_DIR   "${PROJECT_SOURCE_DIR}/external/FANN-2.2.0-Source")
 
 ###################################
 ### Setup Boost path
@@ -57,7 +57,6 @@ find_package ( OpenCV REQUIRED )
 find_package ( Eigen3 REQUIRED )
 find_package (Ceres REQUIRED)
 
-
 ### Find spii
 #ExternalProject_Get_Property(spii SPII_INSTALL_DIR)
 #set(SPII_INSTALL_DIR "C:/SDK/Spii")
@@ -77,6 +76,20 @@ endif()
 message(STATUS "spii_LIBRARIES:\"${spii_LIBRARIES}\"")
 # copy dll
 file(COPY ${SPII_INSTALL_DIR}/bin/spii.dll DESTINATION ${PROJECT_BINARY_DIR}/main)
+
+# Find FANN LIBS
+set(FANN_INCLUDE_DIRS ${FANN_INSTALL_DIR}/src/include)
+find_library (FANN_LIBRARY_RELEASE
+              fanndouble
+              PATHS ${FANN_INSTALL_DIR}/VS2010/x64/Release)
+if (FANN_LIBRARY_RELEASE)
+    set(FANN_LIBRARIES ${FANN_LIBRARY_RELEASE})
+else()
+   set(FANN_LIBRARIES "")
+endif()
+message(STATUS "FANN_LIBRARIES:\"${FANN_LIBRARIES}\"")
+# copy dll
+file(COPY ${FANN_INSTALL_DIR}/VS2010/x64/Release/fanndouble.dll DESTINATION ${PROJECT_BINARY_DIR}/main)
 
 # copy OpenCV dlls
 file(GLOB OPENCV_DLLS
