@@ -32,29 +32,31 @@ void DotTrainer::StartThread(void)
 DWORD DotTrainer::Run()
 {	
 	trainingOn = true;
-	dotX = 50;
-	dotY = 25;
-	int GAP = 100;
-	for (int i = 0; i < 5; i++) {
-		dotY += GAP;
+	//for (int anotherOne = 0; anotherOne < 5; anotherOne++) {
 		dotX = 50;
-		for (int j = 0; j < 12; j++) {
-			//Create dot on GUI
-			dotX += GAP;
-			AddDotToDisplay(dotX, dotY);
-			int sleep = 500;
-			MousePosTraining mousePosTraining;
-			mousePosTraining.x = dotX;
-			mousePosTraining.y = dotY;
-			mousePosTraining.ms = sleep;
-			EventMessage eventMessage;
-			eventMessage.topic = TrainingMousePos;
-			eventMessage.data = &mousePosTraining;
-			Publish(eventMessage);
-			this_thread::sleep_for(std::chrono::milliseconds(sleep));
-			ClearDot(dotX, dotY);
+		dotY = 25;
+		int GAP = 100;
+		for (int i = 0; i < 5; i++) {
+			dotY += GAP;
+			dotX = 50;
+			for (int j = 0; j < 12; j++) {
+				//Create dot on GUI
+				dotX += GAP;
+				AddDotToDisplay(dotX, dotY);
+				int sleep = 500;
+				MousePosTraining mousePosTraining;
+				mousePosTraining.x = dotX;
+				mousePosTraining.y = dotY;
+				mousePosTraining.ms = sleep;
+				EventMessage eventMessage;
+				eventMessage.topic = TrainingMousePos;
+				eventMessage.data = &mousePosTraining;
+				Publish(eventMessage);
+				this_thread::sleep_for(std::chrono::milliseconds(sleep));
+				ClearDot(dotX, dotY);
+			}
 		}
-	}
+	//}
 	EventMessage em;
 	em.topic = TurnTrainingOff;
 	bool data = true;

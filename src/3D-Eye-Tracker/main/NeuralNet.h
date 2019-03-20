@@ -31,7 +31,7 @@ private:
 public:
 
 	NeuralNet::NeuralNet(PubSubHandler* p) : Subscriber(p), Publisher(p) {
-		vector<double> vect(7, 0);
+		vector<double> vect(16, 0);
 		mostRecentTrainingSet = vect;
 	}
 

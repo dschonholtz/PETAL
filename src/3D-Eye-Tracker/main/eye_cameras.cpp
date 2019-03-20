@@ -277,22 +277,24 @@ void test_eyecam(){
 	return;
 #endif
 	EyeCamera eyecamL(0);
-	EyeCamera eyecamR(2);
-	EyeCamera eyecamW(1);
-	if (eyecamL.isOpened() && eyecamR.isOpened()){
+	//EyeCamera eyecamR(2);
+	//EyeCamera eyecamW(1);
+	if (eyecamL.isOpened()
+		//&& eyecamR.isOpened()
+		){
 		cv::Mat imgL, imgR, imgW;
 		size_t frame_count = 0;
 		size_t kSkipFrameCount = 50;
 		timer timer0;
 		timer0.pause();
 		while (1){
-
+			 
 			eyecamL.fetchFrame(imgL);
-			eyecamR.fetchFrame(imgR);
-			eyecamW.fetchFrame(imgW);
+			//eyecamR.fetchFrame(imgR);
+			//eyecamW.fetchFrame(imgW);
 			cv::imshow("camera left", imgL);
-			cv::imshow("camera right", imgR);
-			cv::imshow("camera world", imgW);
+			//cv::imshow("camera right", imgR);
+			//cv::imshow("camera world", imgW);
 			if (cv::waitKey(1) == 'q')break;
 
 			// Compute and print FPS

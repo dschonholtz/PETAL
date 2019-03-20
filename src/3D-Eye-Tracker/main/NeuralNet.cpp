@@ -22,39 +22,66 @@ int print_callback(FANN::neural_net &net, FANN::training_data &train,
 void NeuralNet::readMessages() {
 	EventMessage em = NeuralNet::getTopMessage();
 	if (em.topic == Eye) {
-		if (trainingOn) {
+		//if (trainingOn) {
 			std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
 			mostRecentTrainingSet[0] = eyeData.at(0); // x
 			mostRecentTrainingSet[1] = eyeData.at(1); // y
 			mostRecentTrainingSet[2] = eyeData.at(2); // z
 			mostRecentTrainingSet[3] = eyeData.at(3); // theta
 			mostRecentTrainingSet[4] = eyeData.at(4); // phi
-			if (mostRecentTrainingSet[0] != 0 && mostRecentTrainingSet[1] != 0 && mostRecentTrainingSet[2] != 0 &&
-				mostRecentTrainingSet[3] != 0 && mostRecentTrainingSet[4] != 0) {
+			//if (mostRecentTrainingSet[0] != 0 && mostRecentTrainingSet[1] != 0 && mostRecentTrainingSet[2] != 0 &&
+				//mostRecentTrainingSet[3] != 0 && mostRecentTrainingSet[4] != 0) {
 				recievedEyeData = true;
-			}
-		}
-		else if (networkDoneTraining) {
-			std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
-			double* doubles = &eyeData[0];
-			net.scale_input(doubles);
-			fann_type* result = net.run(doubles);
-			net.descale_output(result);
+			//}
+		//}
+		//else if (networkDoneTraining) {
+		//	std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
+		//	double* doubles = &eyeData[0];
+		//	net.scale_input(doubles);
+		//	fann_type* result = net.run(doubles);
+		//	net.descale_output(result);
 
-			EventMessage newMousePos;
-			newMousePos.topic = MousePos;
-			MousePosData mpd;
-			mpd.x = (int)result[0];
-			mpd.y = (int)result[1];
-			newMousePos.data = &mpd;
-			Publish(newMousePos);
-		}
+		//	EventMessage newMousePos;
+		//	newMousePos.topic = MousePos;
+		//	MousePosData mpd;
+		//	mpd.x = (int)result[0];
+		//	mpd.y = (int)result[1];
+		//	newMousePos.data = &mpd;
+		//	Publish(newMousePos);
+		//}
 	}
 	else if (em.topic == AprilTag) {
-		if (trainingOn) {
-			recievedAprilTagData = true;
-			// presumably will be setting values 7 - 19 with the rotational matrix.
-		}
+		//if (trainingOn) {
+			std::vector<double> aprilTagData = *static_cast<std::vector<double> *>(em.data);
+			mostRecentTrainingSet[5] = aprilTagData.at(0);
+			mostRecentTrainingSet[6] = aprilTagData.at(1);
+			mostRecentTrainingSet[7] = aprilTagData.at(2);
+			mostRecentTrainingSet[8] = aprilTagData.at(3);
+			mostRecentTrainingSet[9] = aprilTagData.at(4);
+			mostRecentTrainingSet[10] = aprilTagData.at(5);
+			mostRecentTrainingSet[11] = aprilTagData.at(6);
+			mostRecentTrainingSet[12] = aprilTagData.at(7);
+			mostRecentTrainingSet[13] = aprilTagData.at(8);
+			//if (mostRecentTrainingSet[5] != 0 && mostRecentTrainingSet[6] != 0 && mostRecentTrainingSet[7] != 0 &&
+				//mostRecentTrainingSet[8] != 0 && mostRecentTrainingSet[9] != 0) {
+				recievedAprilTagData = true;
+			//}
+		//}
+		//else if (networkDoneTraining) {
+		//	std::vector<double> aprilTagData = *static_cast<std::vector<double> *>(em.data);
+		//	double* doubles = &aprilTagData[0];
+		//	net.scale_input(doubles);
+		//	fann_type* result = net.run(doubles);
+		//	net.descale_output(result);
+
+		//	EventMessage newMousePos;
+		//	newMousePos.topic = MousePos;
+		//	MousePosData mpd;
+		//	mpd.x = (int)result[0];
+		//	mpd.y = (int)result[1];
+		//	newMousePos.data = &mpd;
+		//	Publish(newMousePos);
+		//}
 	}
 	else if (em.topic == TrainingMousePos) {
 		if (!trainingOn) {
@@ -78,16 +105,31 @@ void NeuralNet::readMessages() {
 	else if (em.topic == LoadNeuralNetworkFromFile) {
 		loadNeuralNetworkFromFile();
 	}
-	if (recievedEyeData && 
-		//recievedAprilTagData &&
-		trainingOn) {
+	if (recievedEyeData && recievedAprilTagData && trainingOn) {
 		recievedEyeData = false;
 		recievedAprilTagData = false;
-
-		mostRecentTrainingSet[5] = trainingMouseX;
-		mostRecentTrainingSet[6] = trainingMouseY;
+		mostRecentTrainingSet.resize(16);
+		mostRecentTrainingSet[14] = trainingMouseX;
+		mostRecentTrainingSet[15] = trainingMouseY;
 		this->writeMostRecentTrainingSetToFile();
 		trainingData.push_back(mostRecentTrainingSet);
+	}
+	else if (recievedEyeData && recievedAprilTagData && !trainingOn && networkDoneTraining) {
+		recievedEyeData = false;
+		recievedAprilTagData = false;
+		mostRecentTrainingSet.resize(14);
+		double* doubles = &mostRecentTrainingSet[0];
+		net.scale_input(doubles);
+		fann_type* result = net.run(doubles);
+		net.descale_output(result);
+
+		EventMessage newMousePos;
+		newMousePos.topic = MousePos;
+		MousePosData mpd;
+		mpd.x = (int)result[0];
+		mpd.y = (int)result[1];
+		newMousePos.data = &mpd;
+		Publish(newMousePos);
 	}
 }
 
@@ -105,13 +147,13 @@ void NeuralNet::writeMostRecentTrainingSetToFile() {
 void NeuralNet::trainNeuralNetwork() {
 //cout << endl << "Eye Tracking neuralNet started." << endl;
 
-    const float learning_rate = 0.7f;
-    const unsigned int num_layers = 3;
+    const float learning_rate = 0.1f;
+    const unsigned int num_layers = 5;
     const float desired_error = 0.10f;
     const unsigned int max_iterations = 300000;
     const unsigned int iterations_between_reports = 1000;
 
-	unsigned int layers[3] = { 5, 7, 2 };
+	unsigned int layers[6] = { 14, 20, 10, 5, 2 };
     net.create_standard_array(num_layers, layers);
 
     net.set_learning_rate(learning_rate);
@@ -185,12 +227,12 @@ void NeuralNet::loadNeuralNetworkFromFile() {
 void NeuralNet::generateFannTrainingFile() {
 	ofstream outfile;
 	outfile.open("FannTrainingData.txt");
-	outfile << trainingData.size() << ' ' << 5 << ' ' << 2 << endl;
+	outfile << trainingData.size() << ' ' << 14 << ' ' << 2 << endl;
 	for (std::vector<vector<double>>::size_type i = 0; i != trainingData.size(); i++) {
 		for (std::vector<double>::size_type j = 0; j != mostRecentTrainingSet.size(); j++) {
 			double data = trainingData.at(i).at(j);
 			outfile << data << ' ';	
-			if (j == 4) {
+			if (j == 13) {
 				outfile << endl;
 			}
 		}
