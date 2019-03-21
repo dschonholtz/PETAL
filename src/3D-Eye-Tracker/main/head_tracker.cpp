@@ -3,7 +3,7 @@
 
 // Constructor
 //HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, int threads, double decimate, double blur, bool refine_edges, bool refine_decode, bool refine_pose, PubSubHandler* p) : cap(0)
-HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, int threads, double decimate, double blur, bool refine_edges, bool refine_decode, bool refine_pose, PubSubHandler* p) : Publisher(p)
+HeadTracker::HeadTracker(int index, bool debug, bool quiet, FamilyName family, int border, int threads, double decimate, double blur, bool refine_edges, bool refine_decode, bool refine_pose, PubSubHandler* p) : Publisher(p)
 {
 	//getopt_t *getopt = getopt_create();
 
@@ -25,7 +25,7 @@ HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, 
 	//	getopt_do_usage(getopt);
 	//	exit(0);
 	//}
-	if (!cap.open(1)) {  // open and check if succeeded
+	if (!cap.open(0)) {  // open and check if succeeded
 		throw "Couldn't open cap\n";
 		return;
 	};

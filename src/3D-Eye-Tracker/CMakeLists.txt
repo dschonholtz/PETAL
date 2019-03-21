@@ -107,4 +107,4 @@ message(STATUS "")
 
 add_subdirectory (main)
 add_subdirectory (singleeyefitter)
-add_subdirectory (HeadTracker)
+add_subdirectory (AprilTag)

@@ -186,7 +186,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 			file_stems = { "cam0", "cam1" };
 			break;
 		case InputMode::CAMERA_MONO:
-			eyecams[0] = std::make_unique<eye_tracker::EyeCameraDS>("HD USB Camera"); //
+			eyecams[0] = std::make_unique<eye_tracker::EyeCameraDS>("VGA USB Camera"); // Change camera name here
 			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Cam0" };
@@ -220,7 +220,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	pubSubHandler->AddSubscriber(&neuralNet, LoadNeuralNetworkFromFile);
 
 	// Head tracker
-	HeadTracker head(false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
+	HeadTracker head(0, false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b
