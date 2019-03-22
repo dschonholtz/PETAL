@@ -10,9 +10,8 @@ include_directories (
   ${spii_INCLUDE_DIRS}
   ${FANN_INCLUDE_DIRS}
   "../singleeyefitter"
-  "../HeadTracker"
-  "../HeadTracker/AprilTag/apriltag-2016-12-01"
-  "../HeadTracker/AprilTag/apriltag-2016-12-01/common"
+  "../AprilTag/apriltag-2016-12-01"
+  "../AprilTag/apriltag-2016-12-01/common"
 )
 
 
@@ -20,14 +19,12 @@ file (GLOB SRCS
   "*.cpp" 
   "../external/DirectShowFrameGrabber/*.cpp"
   "../external/DirectShowFrameGrabber/*.c"
-  "../HeadTracker/head_tracker.cpp"
   # "external/DirectShowFrameGrabber/*.idl"pupillabs
   )
 
 file (GLOB HEADERS 
   *.h *.hpp 
   "../external/DirectShowFrameGrabber/*.h"
-  "../HeadTracker/head_tracker.h"
   )
 
 

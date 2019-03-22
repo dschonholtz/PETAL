@@ -3,7 +3,7 @@
 
 // Constructor
 //HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, int threads, double decimate, double blur, bool refine_edges, bool refine_decode, bool refine_pose, PubSubHandler* p) : cap(0)
-HeadTracker::HeadTracker(bool debug, bool quiet, FamilyName family, int border, int threads, double decimate, double blur, bool refine_edges, bool refine_decode, bool refine_pose, PubSubHandler* p) : Publisher(p)
+HeadTracker::HeadTracker(int index, bool debug, bool quiet, FamilyName family, int border, int threads, double decimate, double blur, bool refine_edges, bool refine_decode, bool refine_pose, PubSubHandler* p) : Publisher(p)
 {
 	//getopt_t *getopt = getopt_create();
 
