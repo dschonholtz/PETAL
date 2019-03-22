@@ -10,7 +10,7 @@ class MouseController: public Subscriber
 public:
 	MouseController(PubSubHandler* p) : Subscriber(p){
 	}
-	vector<MousePosData> recievedMousePositions;
+	vector<MousePosData*> recievedMousePositions;
 	MousePosData currentMousePosition;
 	int maxMouseMovementDistance = 10;
 	void receiveMessage(EventMessage e);

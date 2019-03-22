@@ -27,7 +27,7 @@ enum FamilyName
 class HeadTracker : public Publisher
 {
 public:
-	HeadTracker(bool, bool, FamilyName, int, int, double, double, bool, bool, bool, PubSubHandler*);
+	HeadTracker(int, bool, bool, FamilyName, int, int, double, double, bool, bool, bool, PubSubHandler*);
 	~HeadTracker();
 	void updatePosition();
 	void Publish(EventMessage e);
