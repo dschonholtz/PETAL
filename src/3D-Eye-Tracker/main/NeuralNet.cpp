@@ -66,24 +66,24 @@ void NeuralNet::readMessages() {
 		mostRecentData[2] = eyeData.at(2);
 		mostRecentData[3] = eyeData.at(3);
 		mostRecentData[4] = eyeData.at(4);
-		mostRecentData[5] = aprilTagData.at(0);
-		mostRecentData[6] = aprilTagData.at(1);
-		mostRecentData[7] = aprilTagData.at(2);
-		mostRecentData[8] = aprilTagData.at(3);
-		mostRecentData[9] = aprilTagData.at(4);
-		mostRecentData[10] = aprilTagData.at(5);
-		mostRecentData[11] = aprilTagData.at(6);
-		mostRecentData[12] = aprilTagData.at(7);
-		mostRecentData[13] = aprilTagData.at(8);
+		//mostRecentData[5] = aprilTagData.at(0);
+		//mostRecentData[6] = aprilTagData.at(1);
+		//mostRecentData[7] = aprilTagData.at(2);
+		//mostRecentData[8] = aprilTagData.at(3);
+		//mostRecentData[9] = aprilTagData.at(4);
+		//mostRecentData[10] = aprilTagData.at(5);
+		//mostRecentData[11] = aprilTagData.at(6);
+		//mostRecentData[12] = aprilTagData.at(7);
+		//mostRecentData[13] = aprilTagData.at(8);
 		if (trainingOn) {
-			mostRecentData[14] = trainingMouseX;
-			mostRecentData[15] = trainingMouseY;
+			mostRecentData[5] = trainingMouseX;
+			mostRecentData[6] = trainingMouseY;
 			this->writeMostRecentTrainingSetToFile();
 			trainingData.push_back(mostRecentData);
 		}
 		else if (networkDoneTraining) {
-			double doubles[16];
-			for (int i = 0; i < 16; i++) {
+			double doubles[5];
+			for (int i = 0; i < 5; i++) {
 				doubles[i] = mostRecentData.at(i);
 			}
 			net.scale_input(doubles);
@@ -121,7 +121,7 @@ void NeuralNet::trainNeuralNetwork() {
     const unsigned int max_iterations = 300000;
     const unsigned int iterations_between_reports = 1000;
 
-	unsigned int layers[3] = { 14, 7, 2 };
+	unsigned int layers[3] = { 5, 7, 2 };
     net.create_standard_array(num_layers, layers);
 
     net.set_learning_rate(learning_rate);
