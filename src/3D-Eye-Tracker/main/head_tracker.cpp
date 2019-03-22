@@ -179,7 +179,7 @@ void HeadTracker::updatePosition()
 		}
 
 		EventMessage msg;
-		msg.data = static_cast<void*>(&vectPose);
+		msg.data = static_cast<void*>(&vectPose[0]);
 		msg.topic = AprilTag;
 		HeadTracker::Publish(msg);
 
