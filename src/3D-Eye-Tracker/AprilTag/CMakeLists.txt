@@ -21,9 +21,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # set the list of source files
 set(test_cpp
   #${CMAKE_CURRENT_SOURCE_DIR}/example/apriltag_demo.c
-  ${CMAKE_CURRENT_SOURCE_DIR}/example/opencv_demo.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/example/opencv_demo_offline.cc
-  ${CMAKE_CURRENT_SOURCE_DIR}/example/demo_offline_simple.cc
+  #${CMAKE_CURRENT_SOURCE_DIR}/example/opencv_demo.cc
+  #${CMAKE_CURRENT_SOURCE_DIR}/example/opencv_demo_offline.cc
+  #${CMAKE_CURRENT_SOURCE_DIR}/example/demo_offline_simple.cc
 )
 
 # Copy test image
@@ -40,7 +40,7 @@ foreach(cpp ${test_cpp})
   endif()
 endforeach()
 
-enable_testing()
-set(test_name test-apriltag)
+#enable_testing()
+#set(test_name test-apriltag)
 #set(test_name "test-apriltag-${target}")
-add_test(NAME ${test_name} COMMAND demo_offline_simple)
+#add_test(NAME ${test_name} COMMAND demo_offline_simple)
