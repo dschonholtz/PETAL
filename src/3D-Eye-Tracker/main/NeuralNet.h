@@ -10,10 +10,13 @@ class NeuralNet : public Subscriber, Publisher
 
 	// Access specifier 
 private:
-	std::vector<double> mostRecentTrainingSet;
-	bool recievedEyeData;
-	bool recievedAprilTagData;
+	std::vector<double> mostRecentData;
+	bool recievedEyeData = false;
+	bool recievedAprilTagData = false;
 	bool trainingOn = false;
+
+	std::vector<double> eyeData;
+	std::vector<double> aprilTagData;
 
 	bool networkDoneTraining = false;
 
@@ -31,8 +34,8 @@ private:
 public:
 
 	NeuralNet::NeuralNet(PubSubHandler* p) : Subscriber(p), Publisher(p) {
-		vector<double> vect(7, 0);
-		mostRecentTrainingSet = vect;
+		vector<double> vect(16, 0);
+		mostRecentData = vect;
 	}
 
 	void receiveMessage(EventMessage e);
