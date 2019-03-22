@@ -220,7 +220,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	pubSubHandler->AddSubscriber(&neuralNet, LoadNeuralNetworkFromFile);
 
 	// Head tracker
-	HeadTracker head(0, false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
+	HeadTracker head(1, false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b

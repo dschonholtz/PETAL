@@ -19,6 +19,8 @@ file (GLOB SRCS
   "*.cpp" 
   "../external/DirectShowFrameGrabber/*.cpp"
   "../external/DirectShowFrameGrabber/*.c"
+  "GUIPub.rc"
+  "GUIPub.ico"
   # "external/DirectShowFrameGrabber/*.idl"pupillabs
   )
 
@@ -27,7 +29,7 @@ file (GLOB HEADERS
   "../external/DirectShowFrameGrabber/*.h"
   )
 
-
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 add_executable( main ${SRCS} ${HEADERS} )
 target_link_libraries( main 
 		       ${OpenCV_LIBS}

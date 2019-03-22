@@ -76,6 +76,7 @@ endif()
 message(STATUS "spii_LIBRARIES:\"${spii_LIBRARIES}\"")
 # copy dll
 file(COPY ${SPII_INSTALL_DIR}/bin/spii.dll DESTINATION ${PROJECT_BINARY_DIR}/main)
+file(COPY ${SPII_INSTALL_DIR}/bin/PTHREADS_LIBRARY.dll DESTINATION ${PROJECT_BINARY_DIR}/main)
 
 # Find FANN LIBS
 set(FANN_INCLUDE_DIRS ${FANN_INSTALL_DIR}/src/include)
@@ -108,3 +109,5 @@ message(STATUS "")
 add_subdirectory (main)
 add_subdirectory (singleeyefitter)
 add_subdirectory (AprilTag)
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT main)
