@@ -25,7 +25,7 @@ HeadTracker::HeadTracker(int index, bool debug, bool quiet, FamilyName family, i
 	//	getopt_do_usage(getopt);
 	//	exit(0);
 	//}
-	if (!cap.open(1)) {  // open and check if succeeded
+	if (!cap.open(index)) {  // open and check if succeeded
 		throw "Couldn't open cap\n";
 		return;
 	};
