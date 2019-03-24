@@ -170,7 +170,7 @@ void HeadTracker::updatePosition()
 		std::cout << "R (after polar decomposition):\n" << R << "\ndet(R): " << determinant(R) << std::endl;
 		std::cout << "tvec: \n" << tvec << std::endl;
 		pose = R;
-
+		vectPose.clear();
 		for (int j = 0; j < 3; j++) 
 		{
 			vectPose.push_back(R.at<double>(i, 0));
