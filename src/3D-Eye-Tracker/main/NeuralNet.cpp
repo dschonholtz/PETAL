@@ -22,17 +22,39 @@ int print_callback(FANN::neural_net &net, FANN::training_data &train,
 void NeuralNet::readMessages() {
 	EventMessage em = NeuralNet::getTopMessage();
 	if (em.topic == Eye) {
-		eyeData = *static_cast<std::vector<double> *>(em.data);
-		if (eyeData.at(0) != 0 && eyeData.at(1) != 0 && eyeData.at(2) != 0 &&
-			eyeData.at(3) != 0 && eyeData.at(4) != 0) {
-			recievedEyeData = true;
+		if (trainingOn) {
+			std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
+			mostRecentTrainingSet[0] = eyeData.at(0); // x
+			mostRecentTrainingSet[1] = eyeData.at(1); // y
+			mostRecentTrainingSet[2] = eyeData.at(2); // z
+			mostRecentTrainingSet[3] = eyeData.at(3); // theta
+			mostRecentTrainingSet[4] = eyeData.at(4); // phi
+			if (mostRecentTrainingSet[0] != 0 && mostRecentTrainingSet[1] != 0 && mostRecentTrainingSet[2] != 0 &&
+				mostRecentTrainingSet[3] != 0 && mostRecentTrainingSet[4] != 0) {
+				recievedEyeData = true;
+			}
 		}
+		else if (networkDoneTraining) {
+			std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
+			double* doubles = &eyeData[0];
+			net.scale_input(doubles);
+			fann_type* result = net.run(doubles);
+			net.descale_output(result);
 
+			EventMessage newMousePos;
+			newMousePos.topic = MousePos;
+			MousePosData mpd;
+			mpd.x = (int)result[0];
+			mpd.y = (int)result[1];
+			newMousePos.data = &mpd;
+			Publish(newMousePos);
+		}
 	}
 	else if (em.topic == AprilTag) {
-		aprilTagData = *static_cast<std::vector<double> *>(em.data);
-		recievedAprilTagData = true;
-		// presumably will be setting values 7 - 19 with the rotational matrix.
+		if (trainingOn) {
+			recievedAprilTagData = true;
+			// presumably will be setting values 7 - 19 with the rotational matrix.
+		}
 	}
 	else if (em.topic == TrainingMousePos) {
 		if (!trainingOn) {
@@ -56,56 +78,24 @@ void NeuralNet::readMessages() {
 	else if (em.topic == LoadNeuralNetworkFromFile) {
 		loadNeuralNetworkFromFile();
 	}
-	if (recievedEyeData
-		&& recievedAprilTagData
-		) {
+	if (recievedEyeData &&
+		//recievedAprilTagData &&
+		trainingOn) {
 		recievedEyeData = false;
 		recievedAprilTagData = false;
-		mostRecentData[0] = eyeData.at(0);
-		mostRecentData[1] = eyeData.at(1);
-		mostRecentData[2] = eyeData.at(2);
-		mostRecentData[3] = eyeData.at(3);
-		mostRecentData[4] = eyeData.at(4);
-		//mostRecentData[5] = aprilTagData.at(0);
-		//mostRecentData[6] = aprilTagData.at(1);
-		//mostRecentData[7] = aprilTagData.at(2);
-		//mostRecentData[8] = aprilTagData.at(3);
-		//mostRecentData[9] = aprilTagData.at(4);
-		//mostRecentData[10] = aprilTagData.at(5);
-		//mostRecentData[11] = aprilTagData.at(6);
-		//mostRecentData[12] = aprilTagData.at(7);
-		//mostRecentData[13] = aprilTagData.at(8);
-		if (trainingOn) {
-			mostRecentData[5] = trainingMouseX;
-			mostRecentData[6] = trainingMouseY;
-			this->writeMostRecentTrainingSetToFile();
-			trainingData.push_back(mostRecentData);
-		}
-		else if (networkDoneTraining) {
-			double doubles[5];
-			for (int i = 0; i < 5; i++) {
-				doubles[i] = mostRecentData.at(i);
-			}
-			net.scale_input(doubles);
-			fann_type* result = net.run(doubles);
-			net.descale_output(result);
 
-			EventMessage newMousePos;
-			newMousePos.topic = MousePos;
-			MousePosData mpd;
-			mpd.x = (int)result[0];
-			mpd.y = (int)result[1];
-			newMousePos.data = &mpd;
-			Publish(newMousePos);
-		}
+		mostRecentTrainingSet[5] = trainingMouseX;
+		mostRecentTrainingSet[6] = trainingMouseY;
+		this->writeMostRecentTrainingSetToFile();
+		trainingData.push_back(mostRecentTrainingSet);
 	}
 }
 
 void NeuralNet::writeMostRecentTrainingSetToFile() {
 	ofstream outfile;
 	outfile.open("TrainingData.txt", std::ios_base::app);
-	for (std::vector<double>::size_type i = 0; i != mostRecentData.size(); i++) {
-		double data = mostRecentData.at(i);
+	for (std::vector<double>::size_type i = 0; i != mostRecentTrainingSet.size(); i++) {
+		double data = mostRecentTrainingSet.at(i);
 		outfile << data << ',';
 	}
 	outfile << endl;
@@ -113,47 +103,47 @@ void NeuralNet::writeMostRecentTrainingSetToFile() {
 }
 
 void NeuralNet::trainNeuralNetwork() {
-//cout << endl << "Eye Tracking neuralNet started." << endl;
+	//cout << endl << "Eye Tracking neuralNet started." << endl;
 
-    const float learning_rate = 0.7f;
-    const unsigned int num_layers = 3;
-    const float desired_error = 0.10f;
-    const unsigned int max_iterations = 300000;
-    const unsigned int iterations_between_reports = 1000;
+	const float learning_rate = 0.7f;
+	const unsigned int num_layers = 3;
+	const float desired_error = 0.10f;
+	const unsigned int max_iterations = 300000;
+	const unsigned int iterations_between_reports = 1000;
 
 	unsigned int layers[3] = { 5, 7, 2 };
-    net.create_standard_array(num_layers, layers);
+	net.create_standard_array(num_layers, layers);
 
-    net.set_learning_rate(learning_rate);
+	net.set_learning_rate(learning_rate);
 
-    net.set_activation_steepness_hidden(1.0);
-    net.set_activation_steepness_output(1.0);
-    
-    net.set_activation_function_hidden(FANN::LINEAR);
-    net.set_activation_function_output(FANN::LINEAR);
+	net.set_activation_steepness_hidden(1.0);
+	net.set_activation_steepness_output(1.0);
 
-    // Set additional properties such as the training algorithm
-    //net.set_training_algorithm(FANN::TRAIN_QUICKPROP);
+	net.set_activation_function_hidden(FANN::LINEAR);
+	net.set_activation_function_output(FANN::LINEAR);
 
-    // Output network type and parameters
-    //cout << endl << "Network Type                         :  ";
-    switch (net.get_network_type())
-    {
-    case FANN::LAYER:
-        cout << "LAYER" << endl;
-        break;
-    case FANN::SHORTCUT:
-        cout << "SHORTCUT" << endl;
-        break;
-    default:
-        cout << "UNKNOWN" << endl;
-        break;
-    }
-    net.print_parameters();
+	// Set additional properties such as the training algorithm
+	//net.set_training_algorithm(FANN::TRAIN_QUICKPROP);
 
-    //cout << endl << "Training network." << endl;
+	// Output network type and parameters
+	//cout << endl << "Network Type                         :  ";
+	switch (net.get_network_type())
+	{
+	case FANN::LAYER:
+		cout << "LAYER" << endl;
+		break;
+	case FANN::SHORTCUT:
+		cout << "SHORTCUT" << endl;
+		break;
+	default:
+		cout << "UNKNOWN" << endl;
+		break;
+	}
+	net.print_parameters();
 
-    FANN::training_data data;
+	//cout << endl << "Training network." << endl;
+
+	FANN::training_data data;
 	if (data.read_train_from_file("FannTrainingData.txt"))
 	{
 		net.set_scaling_params(data, -1, 1, -1, 1);
@@ -195,11 +185,11 @@ void NeuralNet::loadNeuralNetworkFromFile() {
 void NeuralNet::generateFannTrainingFile() {
 	ofstream outfile;
 	outfile.open("FannTrainingData.txt");
-	outfile << trainingData.size() << ' ' << 14 << ' ' << 2 << endl;
+	outfile << trainingData.size() << ' ' << 5 << ' ' << 2 << endl;
 	for (std::vector<vector<double>>::size_type i = 0; i != trainingData.size(); i++) {
-		for (std::vector<double>::size_type j = 0; j != mostRecentData.size(); j++) {
+		for (std::vector<double>::size_type j = 0; j != mostRecentTrainingSet.size(); j++) {
 			double data = trainingData.at(i).at(j);
-			outfile << data << ' ';	
+			outfile << data << ' ';
 			if (j == 4) {
 				outfile << endl;
 			}
