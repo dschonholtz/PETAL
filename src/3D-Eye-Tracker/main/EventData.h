@@ -4,9 +4,12 @@
 #define EVENT_DATA_H
 
 enum EventTopic {
-	EyeData,
-	AprilTagData,
-	MousePos
+	Eye,
+	AprilTag,
+	MousePos,
+	TrainingMousePos,
+	TurnTrainingOff,
+	LoadNeuralNetworkFromFile,
 };
 
 struct EventMessage {
@@ -15,6 +18,17 @@ struct EventMessage {
 };
 
 struct MousePosData {
+	int x;
+	int y;
+};
+
+struct MousePosTraining {
+	int x;
+	int y;
+	int ms;
+};
+
+struct EyeData {
 	int x;
 	int y;
 };

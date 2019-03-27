@@ -1,0 +1,60 @@
+platform:
+  - Win32
+  - Win64
+
+environment:
+  home: C:\projects
+  OPENCV_FILE: opencv-3.3.0-vc14.exe
+  OPENCV_FOLDER: opencv
+  OPENCV_PKG: https://github.com/opencv/opencv/releases/download/3.3.0/opencv-3.3.0-vc14.exe
+  matrix:
+  - generator : Visual Studio 14
+  - generator : Visual Studio 14 Win64
+
+os: Visual Studio 2015
+
+# branches:
+  # only:
+    # - build_MSVC_14
+
+configuration: Release
+
+install:
+    - ps: >-
+        if (!(Test-Path ${env:OPENCV_FILE})) {
+            echo "Downloading OpenCV from ${env:OPENCV_PKG} ..."
+            appveyor DownloadFile "${env:OPENCV_PKG}" -FileName ${env:OPENCV_FILE} -Timeout 1200000
+        }
+    # - cmd: >-
+        # echo "Extracting OpenCV to %APPVEYOR_BUILD_FOLDER% ..."
+        # 7z x %OPENCV_FILE% -y -o "%APPVEYOR_BUILD_FOLDER%"
+    - cmd: 7z x %OPENCV_FILE% -y
+    - cmd: echo %APPVEYOR_BUILD_FOLDER%
+    - cmd: dir
+    - cmd: echo %PATH%
+
+cache:
+    - opencv-3.3.0-vc14.exe -> appveyor.yml
+
+before_build:
+  - cmd: cmake --version
+  - cmd: mkdir build
+  - cmd: cd build
+  - if %platform%==Win32 set generator=Visual Studio 14
+  - if %platform%==Win64 set generator=Visual Studio 14 Win64
+  - if %platform%==Win32 set vcplatform=Win32
+  - if %platform%==Win64 set vcplatform=x64
+  - if %platform%==Win64 set OpenCV_DIR=%APPVEYOR_BUILD_FOLDER%\%OPENCV_FOLDER%\build\x64\vc14\lib
+  - cmd: echo %platform%
+  - cmd: echo %generator%
+  - cmd: echo %vcplatform%
+  - cmd: cmake -G "%generator%" -DOPENCV_DIR=%OpenCV_DIR% -DCMAKE_INSTALL_PREFIX=..\install ..
+  - cmd: dir
+  - cmd: echo %OpenCV_DIR%
+
+build_script:
+  - msbuild C:\projects\apriltag\build\AprilTag-crossplatform.sln /p:Platform=%vcplatform%
+
+test_script:
+  - cmd: set PATH=%PATH%;%APPVEYOR_BUILD_FOLDER%\build\pthreads-win32\Release
+  - ctest --verbose -C "Release"
