@@ -6,7 +6,7 @@
 #include <sstream>
 #include <doublefann.h>
 #include <fann_cpp.h>
-
+#include <iomanip>
 FANN::neural_net net;
 
 // Callback function that simply prints the information to cout
@@ -14,8 +14,12 @@ int print_callback(FANN::neural_net &net, FANN::training_data &train,
 	unsigned int max_epochs, unsigned int epochs_between_reports,
 	float desired_error, unsigned int epochs, void *user_data)
 {
-	//cout << "Epochs     " << setw(8) << epochs << ". "
-	//	<< "Current Error: " << left << net.get_MSE() << right << endl;
+	ofstream outfile;
+	outfile.open("epochReporting.txt", std::ios_base::app);
+	outfile << "Epochs     " << std::setw(8) << epochs << ". "
+		<< "Current Error: " << left << net.get_MSE() << right << endl;
+	outfile << endl;
+	outfile.close();
 	return 0;
 }
 
@@ -23,16 +27,24 @@ void NeuralNet::readMessages() {
 	EventMessage em = NeuralNet::getTopMessage();
 	if (em.topic == Eye) {
 		std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
-		mostRecentData[0] = eyeData.at(0); // x
-		mostRecentData[1] = eyeData.at(1); // y
-		mostRecentData[2] = eyeData.at(2); // z
-		mostRecentData[3] = eyeData.at(3); // theta
-		mostRecentData[4] = eyeData.at(4); // phi
+		for(int i = 0; i < 5; i++) {
+			mostRecentData[i + currentEyeIndex * 5] = eyeData.at(i);
+		}
+		if (currentEyeIndex < 2) {
+			currentEyeIndex++;
+		}
+		else {
+			currentEyeIndex = 0;
+		}
 		if (trainingOn) {
-			if (mostRecentData[0] != 0 && mostRecentData[1] != 0 && mostRecentData[2] != 0 &&
-				mostRecentData[3] != 0 && mostRecentData[4] != 0) {
-				recievedEyeData = true;
+			bool isZero = false;
+			for (int i = 0; i < 15; i++) {
+				if (mostRecentData[i] == 0) {
+					isZero = true;
+					break;
+				}
 			}
+			recievedEyeData = !isZero;
 		}
 		else if (networkDoneTraining) {
 			//std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
@@ -58,7 +70,7 @@ void NeuralNet::readMessages() {
 		aprilTagData = *static_cast<std::vector<double> *>(em.data);
 		recievedAprilTagData = true;
 		for (int i = 0; i < aprilTagData.size(); i++) {
-			mostRecentData[5+i] = aprilTagData.at(i);
+			mostRecentData[15+i] = aprilTagData.at(i);
 		}
 	}
 	else if (em.topic == TrainingMousePos) {
@@ -84,7 +96,7 @@ void NeuralNet::readMessages() {
 		loadNeuralNetworkFromFile();
 	}
 	if (recievedEyeData &&
-		//recievedAprilTagData &&
+		recievedAprilTagData &&
 		trainingOn) {
 		recievedEyeData = false;
 		recievedAprilTagData = false;
@@ -110,13 +122,13 @@ void NeuralNet::writeMostRecentTrainingSetToFile() {
 void NeuralNet::trainNeuralNetwork() {
 	//cout << endl << "Eye Tracking neuralNet started." << endl;
 
-	const float learning_rate = 0.1f;
-	const unsigned int num_layers = 5;
+	const float learning_rate = 0.04f;
+	const unsigned int num_layers = 7;
 	const float desired_error = 0.10f;
-	const unsigned int max_iterations = 300000;
+	const unsigned int max_iterations = 500000;
 	const unsigned int iterations_between_reports = 1000;
 
-	unsigned int layers[5] = { VEC_SIZE, 20, 12, 7, 2 };
+	unsigned int layers[6] = { VEC_SIZE, 35, 25, 15, 7, 2 };
 	net.create_standard_array(num_layers, layers);
 
 	net.set_learning_rate(learning_rate);
@@ -156,7 +168,7 @@ void NeuralNet::trainNeuralNetwork() {
 		data.save_train("FannScaledTrainingData.data");
 		// Initialize and train the network with the data
 		net.init_weights(data);
-
+		net.set_callback(print_callback, NULL);
 		net.train_on_data(data, max_iterations,
 			iterations_between_reports, desired_error);
 		networkDoneTraining = true;

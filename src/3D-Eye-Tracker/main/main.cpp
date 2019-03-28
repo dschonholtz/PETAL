@@ -191,7 +191,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 		case InputMode::CAMERA_MONO:
 			//eyecams[0] = std::make_unique<eye_tracker::EyeCamera>(""); // Change camera name here
 
-			testCam = new EyeCamera(1, false);			
+			testCam = new EyeCamera(0, false);			
 			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Cam0" };
@@ -225,7 +225,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	pubSubHandler->AddSubscriber(&neuralNet, LoadNeuralNetworkFromFile);
 
 	// Head tracker
-	HeadTracker head(0, false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
+	HeadTracker head(1, false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b

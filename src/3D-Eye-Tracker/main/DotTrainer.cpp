@@ -33,17 +33,34 @@ DWORD DotTrainer::Run()
 {	
 	trainingOn = true;
 	int GAP = 100;
+	dotX = 50;
+	dotY = 25;
+	bool backwards = false;
 	for (int k = 0; k < 5; k++) {
-		dotX = 50;
-		dotY = 25;
-		for (int i = 0; i < 5; i++) {
-			dotY += GAP;
-			dotX = 50;
-			for (int j = 0; j < 12; j++) {
-				//Create dot on GUI
-				dotX += GAP;
+		for (int i = 0; i < 7; i++) {
+			if (i != 0) {
+				if (backwards) {
+					dotY -= GAP;
+				}
+				else {
+					dotY += GAP;
+				}
+			}
+			//dotX = 50;
+			for (int j = 0; j < 12; j++) { 
+				if (i % 2 == 0)
+					if (backwards)
+						dotX -= GAP;
+					else
+						dotX += GAP;
+				else if(!backwards) {
+					dotX -= GAP;
+				}
+				else {
+					dotX += GAP;
+				}
 				AddDotToDisplay(dotX, dotY);
-				int sleep = 500;
+				int sleep = 1000;
 				MousePosTraining mousePosTraining;
 				mousePosTraining.x = dotX;
 				mousePosTraining.y = dotY;
@@ -56,6 +73,7 @@ DWORD DotTrainer::Run()
 				ClearDot(dotX, dotY);
 			}
 		}
+		backwards = !backwards;
 	}
 	EventMessage em;
 	em.topic = TurnTrainingOff;

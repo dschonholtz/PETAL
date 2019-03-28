@@ -16,8 +16,8 @@ void MouseController::readMessages() {
 }
 
 MousePosData MouseController::calculateNewMousePos(MousePosData mpd) {
-	if (recievedMousePositions.size() > 10) {
-		recievedMousePositions.erase(recievedMousePositions.begin() + 10);
+	if (recievedMousePositions.size() > 3) {
+		recievedMousePositions.erase(recievedMousePositions.begin() + 3);
 	}
 	recievedMousePositions.insert(recievedMousePositions.begin(), mpd);
 	MousePosData newPoint;
