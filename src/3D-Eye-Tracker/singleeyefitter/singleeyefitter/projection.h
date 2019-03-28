@@ -183,6 +183,18 @@ namespace singleeyefitter {
         //assert(lambda(0) >= lambda(1));
         //assert(lambda(1) > 0);
         //assert(lambda(2) < 0);
+		if (lambda(1) < 0)
+		{
+			lambda(1) = -lambda(1);
+		}
+		if (lambda(2) > 0)
+		{
+			lambda(2) = -lambda(2);
+		}
+		if (lambda(0) < lambda(1))
+		{
+			lambda(0) = lambda(1);
+		}
 
         // Now want to calculate l,m,n of the plane
         //     lX + mY + nZ = p
