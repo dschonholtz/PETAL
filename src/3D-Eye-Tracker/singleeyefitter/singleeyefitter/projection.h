@@ -180,9 +180,9 @@ namespace singleeyefitter {
         RowArray3 lambda;
         std::tie(lambda(0), lambda(1), lambda(2)) = solve(1., -(a + b + c), (b*c + c*a + a*b - f*f - g*g - h*h), -(a*b*c + 2 * f*g*h - a*f*f - b*g*g - c*h*h));
 
-        assert(lambda(0) >= lambda(1));
-        assert(lambda(1) > 0);
-        assert(lambda(2) < 0);
+        //assert(lambda(0) >= lambda(1));
+        //assert(lambda(1) > 0);
+        //assert(lambda(2) < 0);
 
         // Now want to calculate l,m,n of the plane
         //     lX + mY + nZ = p
