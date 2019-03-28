@@ -10,7 +10,7 @@ class NeuralNet : public Subscriber, Publisher
 
 	// Access specifier 
 private:
-	std::vector<double> mostRecentTrainingSet;
+	std::vector<double> mostRecentData;
 	bool recievedEyeData;
 	bool recievedAprilTagData;
 	bool trainingOn = false;
@@ -20,8 +20,12 @@ private:
 	int trainingMouseX;
 	int trainingMouseY;
 
+	const int VEC_SIZE = 24;
+	int currentEyeIndex = 0;
+
 	struct fann *ann;
 	std::vector<std::vector<double>> trainingData;
+	std::vector<double> aprilTagData;
 
 	void writeMostRecentTrainingSetToFile();
 	void generateFannTrainingFile();
@@ -31,8 +35,8 @@ private:
 public:
 
 	NeuralNet::NeuralNet(PubSubHandler* p) : Subscriber(p), Publisher(p) {
-		vector<double> vect(7, 0);
-		mostRecentTrainingSet = vect;
+		vector<double> vect(VEC_SIZE + 2, 0);
+		mostRecentData = vect;
 	}
 
 	void receiveMessage(EventMessage e);
