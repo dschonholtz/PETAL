@@ -3,7 +3,7 @@
  @author Yuta Itoh <itoh@in.tum.de>, \n<a href="http://wwwnavab.in.tum.de/Main/YutaItoh">Homepage</a>.
 
 **/
-//#pragma comment(lib, "C:/Users/Dillon/Documents/Capstone/PETAL_MASTER_V1/PETAL/src/3D-Eye-Tracker/build/x64/Debug/MixedCode.lib")
+
 
 #include <iostream>
 #include <iomanip>
@@ -38,20 +38,19 @@
 #include "pubsub.h"
 #include "DummyPublisher.h"
 #include "MouseController.h"
-#include "head_tracker.h"
 
-#include "NeuralNet.h"
-
- 
 namespace {
 
 enum InputMode { CAMERA, CAMERA_MONO, VIDEO, IMAGE };
 
 }
-using namespace std;
-using namespace eye_tracker;
 
-int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
+
+/*int main(int argc, char *argv[]){
+	
+	//pub sub declarations:
+	PubSubHandler *pubSubHandler = new PubSubHandler();
+
 	// Variables for FPS
 	eye_tracker::FrameRateCounter frame_rate_counter;
 
@@ -60,7 +59,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 
 	InputMode input_mode =
 		//InputMode::VIDEO;  // Set a video as a video source
-         //InputMode::CAMERA; // Set two cameras as video sources
+        // InputMode::CAMERA; // Set two cameras as video sources
 		 InputMode::CAMERA_MONO; // Set a camera as video sources
 	    // InputMode::IMAGE;// Set an image as a video source
 
@@ -70,24 +69,24 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	std::string media_file;
 	std::string media_file_stem;
 	//std::string kOutputDataDirectory(kDir + "out/");	// Data output directroy
-	//if (argc > 2) {
-	//	boost::filesystem::path file_name = std::string(argv[2]);
-	//	kDir = std::string(argv[1]);
-	//	media_file_stem = file_name.stem().string();
-	//	media_file = kDir + file_name.string();
-	//	//kOutputDataDirectory = kDir + "./";
-	//	std::cout << "Load " << media_file << std::endl;
-	//	std::string media_file_ext = file_name.extension().string();
+	if (argc > 2) {
+		boost::filesystem::path file_name = std::string(argv[2]);
+		kDir = std::string(argv[1]);
+		media_file_stem = file_name.stem().string();
+		media_file = kDir + file_name.string();
+		//kOutputDataDirectory = kDir + "./";
+		std::cout << "Load " << media_file << std::endl;
+		std::string media_file_ext = file_name.extension().string();
 
-	//	if (media_file_ext == ".avi" ||
-	//		media_file_ext == ".mp4" ||
-	//		media_file_ext == ".wmv") {
-	//		input_mode = InputMode::VIDEO;
-	//	}else{
-	//		input_mode = InputMode::IMAGE;
-	//	}
-	//}
-	//else {
+		if (media_file_ext == ".avi" ||
+			media_file_ext == ".mp4" ||
+			media_file_ext == ".wmv") {
+			input_mode = InputMode::VIDEO;
+		}else{
+			input_mode = InputMode::IMAGE;
+		}
+	}
+	else {
 		if (input_mode == InputMode::IMAGE || input_mode == InputMode::VIDEO) {
 			switch (input_mode)
 			{
@@ -103,7 +102,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 				break;
 			}
 		}
-	//}
+	}
 	///////////////
 
 	
@@ -141,8 +140,6 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 
 	// Setup of classes that handle monocular/stereo camera setups
 	// We can encapslate them into a wrapper class in future update
-	EyeCamera* testCam;
-	
 	std::vector<std::unique_ptr<eye_tracker::EyeCameraParent>> eyecams(kCameraNums);                 // Image sources
 	std::vector<std::unique_ptr<eye_tracker::CameraUndistorter>> camera_undistorters(kCameraNums); // Camera undistorters
 	std::vector<std::string> window_names(kCameraNums);                                            // Window names
@@ -171,7 +168,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 			break;
 		case InputMode::CAMERA:
 			camera_indices[0] = 0;
-			camera_indices[1] = 1;
+			camera_indices[1] = 2;
 #if 0
 			// OpenCV HighGUI frame grabber
 			eyecams[0] = std::make_unique<eye_tracker::EyeCamera>(camera_indices[0], false);
@@ -189,9 +186,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 			file_stems = { "cam0", "cam1" };
 			break;
 		case InputMode::CAMERA_MONO:
-			//eyecams[0] = std::make_unique<eye_tracker::EyeCamera>(""); // Change camera name here
-
-			testCam = new EyeCamera(0, false);			
+			eyecams[0] = std::make_unique<eye_tracker::EyeCameraDS>("HD USB Camera"); //
 			eye_model_updaters[0] = std::make_unique<eye_tracker::EyeModelUpdater>(focal_length, 5, 0.5, pubSubHandler);
 			camera_undistorters[0] = std::make_unique<eye_tracker::CameraUndistorter>(K, distCoeffs);
 			window_names = { "Cam0" };
@@ -214,23 +209,14 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	pupilFitter.setDebug(false);
 	/////////////////////////
 
+	//DummyPublisher pub = DummyPublisher(pubSubHandler);
 	MouseController sub = MouseController(pubSubHandler);
-	pubSubHandler->AddSubscriber(&sub, MousePos);
-
-	NeuralNet neuralNet = NeuralNet(pubSubHandler);
-	pubSubHandler->AddSubscriber(&neuralNet, Eye);
-	pubSubHandler->AddSubscriber(&neuralNet, TurnTrainingOff);
-	pubSubHandler->AddSubscriber(&neuralNet, TrainingMousePos);
-	pubSubHandler->AddSubscriber(&neuralNet, AprilTag);
-	pubSubHandler->AddSubscriber(&neuralNet, LoadNeuralNetworkFromFile);
-
-	// Head tracker
-	HeadTracker head(1, false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
+	pubSubHandler->AddSubscriber(&sub, Eye);
 
 	// Main loop
 	const char kTerminate = 27;//Escape 0x1b
 	bool is_run = true;
-	while (is_run && !(*killSignal)) {
+	while (is_run) {
 
 		// Fetch key input
 		char kKEY = 0;
@@ -245,8 +231,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 
 		// Fetch images
 		for (size_t cam = 0; cam < kCameraNums; cam++) {
-			//eyecams[cam]->fetchFrame(images[cam]);
-			testCam->fetchFrame(images[cam]);
+			eyecams[cam]->fetchFrame(images[cam]);
 		}
 		// Process each camera images
 		for (size_t cam = 0; cam < kCameraNums; cam++) {
@@ -285,7 +270,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 			bool is_reliable = false;
 			bool is_added = false;
 			const bool force_add = false;
-			const double kReliabilityThreshold = 0.96;// 0.96;
+			const double kReliabilityThreshold = 0.8;// 0.96;
 			double ellipse_realiability = 0.0; /// Reliability of a detected 2D ellipse based on 3D eye model
 			if (is_pupil_found) {
 				if (eye_model_updaters[cam]->is_model_built()) {
@@ -334,11 +319,8 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 			ss = 0;
 		}
 
-		// Track head
-	    head.updatePosition();
-
 	}// Main capture loop
 
 	return 0;
 
-}
+}*/

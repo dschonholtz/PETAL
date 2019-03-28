@@ -19,7 +19,7 @@ void record_eyecams_mono_interactive(){
 	// Open and check cameras
 	cv::Mat images[kCcameraNums];
 	EyeCamera eyecams[kCcameraNums] = { EyeCamera(0,true)};
-	std::string window_names[kCcameraNums] = { "Cam0" };
+	std::string window_names[kCcameraNums] = { "ET" };
 	for (size_t cam = 0; cam < kCcameraNums; cam++){
 		// Check if the cameras are opened
 		if (eyecams[cam].isOpened() == false){
@@ -102,7 +102,7 @@ void record_eyecams_mono(){
 	std::vector<std::unique_ptr<eye_tracker::EyeCameraParent>> eyecams(kCcameraNums); // Image sources
 	cv::Mat images[kCcameraNums];
 	eyecams[0] = std::make_unique<eye_tracker::EyeCameraDS>("Pupil Cam1 ID2");
-	std::string window_names[kCcameraNums] = { "Cam0" };
+	std::string window_names[kCcameraNums] = { "ET" };
 	for (size_t cam = 0; cam < kCcameraNums; cam++){
 		// Check if the cameras are opened
 		if (eyecams[cam]->isOpened() == false){
