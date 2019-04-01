@@ -10,6 +10,7 @@ enum EventTopic {
 	TrainingMousePos,
 	TurnTrainingOff,
 	LoadNeuralNetworkFromFile,
+	LoadTrainingDataFromFile,
 };
 
 struct EventMessage {

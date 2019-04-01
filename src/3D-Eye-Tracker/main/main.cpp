@@ -223,6 +223,7 @@ int eyeTrackerLoop(PubSubHandler *pubSubHandler, bool *killSignal){
 	pubSubHandler->AddSubscriber(&neuralNet, TrainingMousePos);
 	pubSubHandler->AddSubscriber(&neuralNet, AprilTag);
 	pubSubHandler->AddSubscriber(&neuralNet, LoadNeuralNetworkFromFile);
+	pubSubHandler->AddSubscriber(&neuralNet, LoadTrainingDataFromFile);
 
 	// Head tracker
 	HeadTracker head(1, false, false, tag36h11, 1, 4, 1.0, 0.0, true, false, false, pubSubHandler);
