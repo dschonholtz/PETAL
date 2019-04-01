@@ -126,13 +126,13 @@ void NeuralNet::writeMostRecentTrainingSetToFile() {
 void NeuralNet::trainNeuralNetwork() {
 	//cout << endl << "Eye Tracking neuralNet started." << endl;
 
-	const float learning_rate = 0.07f;
-	const unsigned int num_layers = 5;
+	const float learning_rate = 0.05f;
+	const unsigned int num_layers = 6;
 	const float desired_error = 0.10f;
 	const unsigned int max_iterations = 5000;
 	const unsigned int iterations_between_reports = 1000;
 
-	unsigned int layers[5] = { VEC_SIZE, 30, 20, 10, 2 };
+	unsigned int layers[6] = { VEC_SIZE, 30, 23, 13, 7, 2 };
 	net.create_standard_array(num_layers, layers);
 
 	net.set_learning_rate(learning_rate);

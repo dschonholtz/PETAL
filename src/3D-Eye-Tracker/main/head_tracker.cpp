@@ -171,13 +171,17 @@ void HeadTracker::updatePosition()
 		std::cout << "tvec: \n" << tvec << std::endl;
 		pose = R;
 		vectPose.clear();
-		for (int j = 0; j < 3; j++) 
-		{
-			vectPose.push_back(R.at<double>(i, 0));
-			vectPose.push_back(R.at<double>(i, 1));
-			vectPose.push_back(R.at<double>(i, 2));
+		//for (int j = 0; j < 3; j++) 
+		//{
+		//	vectPose.push_back(R.at<double>(i, 0));
+		//	vectPose.push_back(R.at<double>(i, 1));
+		//	vectPose.push_back(R.at<double>(i, 2));
+		//}
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 2; j++) {
+				vectPose.push_back(det->p[i][j]);
+			}
 		}
-
 		EventMessage msg;
 		msg.data = &vectPose;
 		msg.topic = AprilTag;
