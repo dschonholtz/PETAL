@@ -332,8 +332,8 @@ void CreateButton(int x, int y, int width, int height, LPCSTR buttonText, int ID
 }
 
 const int DOTRADIUS = 20;
-void AddDotToDisplay(int x, int y) {
-	BCX_Circle(hWndMain, x, y, DOTRADIUS, RGB(255,0,0), true, NULL);
+void AddDotToDisplay(int x, int y, int r, int g, int b) {
+	BCX_Circle(hWndMain, x, y, DOTRADIUS, RGB(r,g,b), true, NULL);
 }
 
 void ClearDot(int x, int y) {
@@ -345,7 +345,7 @@ void AddDotToDisplay(int x, int y, int radius) {
 }
 
 void ClearDot(int x, int y, int radius) {
-	BCX_Circle(hWndMain, x, y, radius, RGB(255, 255, 255), true, NULL);
+	BCX_Circle(hWndMain, x, y, radius, RGB(0, 0, 0), true, NULL);
 }
 
 int BCX_Circle(HWND Wnd, int X, int Y, int R, int color, int Fill, HDC DrawHDC)

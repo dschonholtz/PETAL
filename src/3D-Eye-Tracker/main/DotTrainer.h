@@ -19,5 +19,6 @@ private:
 	int dotX;
 	int dotY;
 	bool trainingOn = false;
+	void ClearAllDots(int dotX, int dotY, int x_gap, int y_gap, int rows, int cols);
 };
 
