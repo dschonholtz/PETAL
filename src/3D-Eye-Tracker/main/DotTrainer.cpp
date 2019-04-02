@@ -29,52 +29,68 @@ void DotTrainer::StartThread(void)
 	CreateThread(NULL, 4096, startMethodInThread, this, 0, NULL);
 }
 
+void DotTrainer::DrawDot(int dotX, int dotY) {
+	AddDotToDisplay(dotX, dotY);
+	int sleep = 100;
+	MousePosTraining mousePosTraining;
+	mousePosTraining.x = dotX;
+	mousePosTraining.y = dotY;
+	mousePosTraining.ms = sleep;
+	EventMessage eventMessage;
+	eventMessage.topic = TrainingMousePos;
+	eventMessage.data = &mousePosTraining;
+	Publish(eventMessage);
+	this_thread::sleep_for(std::chrono::milliseconds(sleep));
+	ClearDot(dotX, dotY);
+}
+
+void DotTrainer::HorizontalDotMovement(int& dotX, int& dotY, int x_gap, int y_gap, int rows, int cols) {
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			dotX += x_gap;			
+			DrawDot(dotX, dotY);
+		}
+		dotY += y_gap;
+		DrawDot(dotX, dotY);
+		x_gap *= -1;
+	}
+}
+
+void DotTrainer::VerticalDotMovement(int& dotX, int& dotY, int x_gap, int y_gap, int rows, int cols) {
+	for (int i = 0; i < cols; i++) {
+		for (int j = 0; j < rows; j++) {
+			dotY += y_gap;
+			DrawDot(dotX, dotY);
+		}
+		dotX += x_gap;
+		DrawDot(dotX, dotY);
+		y_gap *= -1;
+	}
+}
+
 DWORD DotTrainer::Run()
 {	
+	if (trainingOn) return 0;
+
+	int NUMITERATIONS = 2;
 	trainingOn = true;
 	int GAP = 100;
-	dotX = 50;
-	dotY = 25;
+	int START_X = 50;
+	int START_Y = 25;
 	bool backwards = false;
-	for (int k = 0; k < 4; k++) {
-		for (int i = 0; i < 7; i++) {
-			if (i != 0) {
-				if (backwards) {
-					dotY -= GAP;
-				}
-				else {
-					dotY += GAP;
-				}
-			}
-			//dotX = 50;
-			for (int j = 0; j < 12; j++) { 
-				if (i % 2 == 0)
-					if (backwards)
-						dotX -= GAP;
-					else
-						dotX += GAP;
-				else if(!backwards) {
-					dotX -= GAP;
-				}
-				else {
-					dotX += GAP;
-				}
-				AddDotToDisplay(dotX, dotY);
-				int sleep = 750;
-				MousePosTraining mousePosTraining;
-				mousePosTraining.x = dotX;
-				mousePosTraining.y = dotY;
-				mousePosTraining.ms = sleep;
-				EventMessage eventMessage;
-				eventMessage.topic = TrainingMousePos;
-				eventMessage.data = &mousePosTraining;
-				Publish(eventMessage);
-				this_thread::sleep_for(std::chrono::milliseconds(sleep));
-				ClearDot(dotX, dotY);
-			}
-		}
-		backwards = !backwards;
+	int ROWS = 7;
+	int COLS = 12;
+	int dotX = START_X;
+	int dotY = START_Y;
+
+	//Right -> Left
+	for (int i = 0; i < NUMITERATIONS; i++) {
+		HorizontalDotMovement(dotX, dotY, GAP, GAP, ROWS, COLS); //Left -> Right
+		HorizontalDotMovement(dotX, dotY, -GAP, -GAP, ROWS, COLS); //Right -> Left
+		VerticalDotMovement(dotX, dotY, GAP, GAP, ROWS, COLS); // Up->down
+		VerticalDotMovement(dotX , dotY, -GAP, GAP, ROWS, COLS); //Down-Up
 	}
+
 	EventMessage em;
 	em.topic = TurnTrainingOff;
 	bool data = true;

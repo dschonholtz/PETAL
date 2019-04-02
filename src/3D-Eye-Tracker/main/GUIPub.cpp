@@ -56,6 +56,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// TODO: Place code here.
 	pubSubHandler = new PubSubHandler();
 	dp = new DummyPublisher(pubSubHandler);
+	dt = new DotTrainer(pubSubHandler);
 	EyePosDebug* eyeDebug = new EyePosDebug(pubSubHandler);
 	
 	
@@ -251,7 +252,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			OptiKeyActive = true;
 			break;
 		case ID_TRAININGBUTTON:
-			dt = new DotTrainer(pubSubHandler);
 			dt->StartThread();
 			break;
 		case ID_LOADFROMFILEBUTTON:
