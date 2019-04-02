@@ -171,13 +171,31 @@ void HeadTracker::updatePosition()
 		std::cout << "tvec: \n" << tvec << std::endl;
 		pose = R;
 		vectPose.clear();
+		// The rotational Matrix
+		//for (int j = 0; j < 3; j++) 
+		//{
+		//	vectPose.push_back(R.at<double>(i, 0));
+		//	vectPose.push_back(R.at<double>(i, 1));
+		//	vectPose.push_back(R.at<double>(i, 2));
+		//}
+		// The real world coordinates jk these suck
+		//for (int i = 0; i < 3; i++) {
+		//	vectPose.push_back(tvec.at<double>(i, 0));
+		//}
+		// The corners!
+		//for (int i = 0; i < 4; i++) {
+		//	for (int j = 0; j < 2; j++) {
+		//		vectPose.push_back(det->p[i][j]);
+		//	}
+		//}
+
+		// Homography matrix
 		for (int j = 0; j < 3; j++) 
 		{
-			vectPose.push_back(R.at<double>(i, 0));
-			vectPose.push_back(R.at<double>(i, 1));
-			vectPose.push_back(R.at<double>(i, 2));
+			vectPose.push_back(H.at<double>(i, 0));
+			vectPose.push_back(H.at<double>(i, 1));
+			vectPose.push_back(H.at<double>(i, 2));
 		}
-
 		EventMessage msg;
 		msg.data = &vectPose;
 		msg.topic = AprilTag;

@@ -37,6 +37,9 @@ HWND trainingButton;
 HWND loadFromFileButton;
 #define ID_LOADFROMFILEBUTTON 0x8809
 
+HWND loadFromTrainingDataFromFileButton;
+#define ID_LOADFROMTRAININGDATAFROMFILEBUTTON 0x8813
+
 PubSubHandler *pubSubHandler;
 DotTrainer* dt;
 DummyPublisher* dp;
@@ -144,8 +147,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 		50,         // x position 
 		50,         // y position 
-		50,        // Button width
-		50,        // Button height
+		150,        // Button width
+		150,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_OPTIKEYBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
@@ -157,8 +160,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 		50,         // x position 
 		200,         // y position 
-		50,        // Button width
-		50,        // Button height
+		150,        // Button width
+		150,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_TRAININGBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
@@ -166,17 +169,29 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	loadFromFileButton = CreateWindow(
 		"BUTTON",  // Predefined class; Unicode assumed 
-		"Load From File",      // Button text 
+		"Load Neural Network From File",      // Button text 
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
 		50,         // x position 
 		350,         // y position 
-		50,        // Button width
-		50,        // Button height
+		150,        // Button width
+		150,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_LOADFROMFILEBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
 		NULL);      // Pointer not needed.
 
+	loadFromTrainingDataFromFileButton = CreateWindow(
+		"BUTTON",  // Predefined class; Unicode assumed 
+		"Load Training Data From File",      // Button text 
+		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
+		50,         // x position 
+		500,         // y position 
+		150,        // Button width
+		150,        // Button height
+		hWndMain,     // Parent window
+		(HMENU)ID_LOADFROMTRAININGDATAFROMFILEBUTTON,
+		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
+		NULL);      // Pointer not needed.
 	 //CreateButton(50, 200, 100, 100, "Start Training", ID_TRAININGBUTTON, trainingButton, hWndMain);
 
 
@@ -206,6 +221,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 	{
 		int wmId = LOWORD(wParam);
+		EventMessage em;
 		// Parse the menu selections:
 		switch (wmId)
 		{
@@ -226,8 +242,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			dt->StartThread();
 			break;
 		case ID_LOADFROMFILEBUTTON:
-			EventMessage em;
 			em.topic = LoadNeuralNetworkFromFile;
+			//em.data = &stuff;
+			dp->Publish(em);
+			break;
+		case ID_LOADFROMTRAININGDATAFROMFILEBUTTON:
+			em.topic = LoadTrainingDataFromFile;
 			//em.data = &stuff;
 			dp->Publish(em);
 			break;

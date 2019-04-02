@@ -21,7 +21,6 @@ private:
 	int trainingMouseY;
 
 	const int VEC_SIZE = 24;
-	int currentEyeIndex = 0;
 
 	struct fann *ann;
 	std::vector<std::vector<double>> trainingData;
