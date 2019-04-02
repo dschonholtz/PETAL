@@ -73,9 +73,10 @@ void DotTrainer::VerticalDotMovement(int& dotX, int& dotY, int x_gap, int y_gap,
 
 DWORD DotTrainer::Run()
 {	
+	HideButtons();
 	if (trainingOn) return 0;
 
-	int NUMITERATIONS = 2;
+	int NUMITERATIONS = 1;
 	trainingOn = true;
 	int GAP = 100;
 	int START_X = 50;
@@ -103,7 +104,7 @@ DWORD DotTrainer::Run()
 	}
 
 	ClearAllDots(dotX, dotY, GAP, GAP, ROWS, COLS);
-
+	ShowButtons();
 	EventMessage em;
 	em.topic = TurnTrainingOff;
 	bool data = true;
