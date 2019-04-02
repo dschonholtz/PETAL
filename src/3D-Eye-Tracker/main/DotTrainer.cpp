@@ -31,7 +31,7 @@ void DotTrainer::StartThread(void)
 
 void DotTrainer::DrawDot(int dotX, int dotY) {
 	AddDotToDisplay(dotX, dotY);
-	int sleep = 100;
+	int sleep = 75;
 	MousePosTraining mousePosTraining;
 	mousePosTraining.x = dotX;
 	mousePosTraining.y = dotY;
@@ -85,10 +85,18 @@ DWORD DotTrainer::Run()
 
 	//Right -> Left
 	for (int i = 0; i < NUMITERATIONS; i++) {
-		HorizontalDotMovement(dotX, dotY, GAP, GAP, ROWS, COLS); //Left -> Right
-		HorizontalDotMovement(dotX, dotY, -GAP, -GAP, ROWS, COLS); //Right -> Left
-		VerticalDotMovement(dotX, dotY, GAP, GAP, ROWS, COLS); // Up->down
-		VerticalDotMovement(dotX , dotY, -GAP, GAP, ROWS, COLS); //Down-Up
+		int x_gap = GAP;
+		int y_gap = GAP;
+		HorizontalDotMovement(dotX, dotY, x_gap, y_gap, ROWS, COLS); //Left -> Right
+		DetermineGap(x_gap, y_gap, START_X, START_Y, dotX, dotY, GAP);
+
+		HorizontalDotMovement(dotX, dotY, x_gap, y_gap, ROWS, COLS); //Right -> Left
+		DetermineGap(x_gap, y_gap, START_X, START_Y, dotX, dotY, GAP);
+
+		VerticalDotMovement(dotX, dotY, x_gap, y_gap, ROWS, COLS); // Up->down
+		DetermineGap(x_gap, y_gap, START_X, START_Y, dotX, dotY, GAP);
+
+		VerticalDotMovement(dotX , dotY, x_gap, y_gap, ROWS, COLS); //Down-Up
 	}
 
 	EventMessage em;
@@ -98,4 +106,9 @@ DWORD DotTrainer::Run()
 	Publish(em);
 	trainingOn = false;
 	return 1;
+}
+
+void DotTrainer::DetermineGap(int &x_gap, int& y_gap, int START_X, int START_Y, int curX, int curY, int GAP) {
+	x_gap = (curX == START_X) ? GAP : -GAP;
+	y_gap = (curY == START_Y) ? GAP : -GAP;
 }
