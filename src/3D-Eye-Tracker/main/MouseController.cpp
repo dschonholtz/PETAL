@@ -42,9 +42,11 @@ void MouseController::setCursorPosition(int x, int y)
 MousePosData MouseController::MoveMouseRelativeToEyePos(MousePosData eyePos, int width, int height) {
 	MouseVelocity* mv = new MouseVelocity();
 	int PIXELBUFFER = 100;
+	double speedScaleX = (eyePos.x / width) * 3;
+	double speedScaleY = (eyePos.y / height) * 3;
 
-	mv->xVel = (eyePos.x > width / 2 + PIXELBUFFER) ? mouseSpeed : (eyePos.x < width / 2 - PIXELBUFFER) ? -mouseSpeed : 0;
-	mv->yVel = (eyePos.y > height / 2 + PIXELBUFFER) ? mouseSpeed : (eyePos.x < height / 2 - PIXELBUFFER) ? -mouseSpeed : 0;
+	mv->xVel = (eyePos.x > width / 2 + PIXELBUFFER) ? mouseSpeed * speedScaleX : (eyePos.x < width / 2 - PIXELBUFFER) ? -mouseSpeed * speedScaleX : 0;
+	mv->yVel = (eyePos.y > height / 2 + PIXELBUFFER) ? mouseSpeed * speedScaleY : (eyePos.x < height / 2 - PIXELBUFFER) ? -mouseSpeed * speedScaleY : 0;
 
 	POINT currentMousePos;
 	GetCursorPos(&currentMousePos);
