@@ -19,8 +19,8 @@ struct EventMessage {
 };
 
 struct MousePosData {
-	int x;
-	int y;
+	int x = 125;
+	int y = 125;
 };
 
 struct MousePosTraining {

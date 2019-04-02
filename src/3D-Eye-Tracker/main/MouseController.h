@@ -23,6 +23,7 @@ public:
 	// Member Functions() 
 	void setCursorPosition(int x, int y);
 	MousePosData calculateNewMousePos(MousePosData newMousePos);
+	const static int BUFFER = 100;
 
 private:
 	int mouseSpeed = 10;

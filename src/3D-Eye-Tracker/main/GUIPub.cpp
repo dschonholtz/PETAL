@@ -7,6 +7,7 @@
 #include "DotTrainer.h"
 #include <thread> 
 #include "DummyPublisher.h"
+#include "EyePosDebug.h"
 
 #define MAX_LOADSTRING 100
 #define GWL_HINSTANCE       (-6)
@@ -55,6 +56,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// TODO: Place code here.
 	pubSubHandler = new PubSubHandler();
 	dp = new DummyPublisher(pubSubHandler);
+	EyePosDebug* eyeDebug = new EyePosDebug(pubSubHandler);
+	
 	
 	
 	// Initialize global strings
@@ -74,16 +77,26 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	MSG msg;
 
+	MousePosData lastMouse = eyeDebug->GetEyePos();
+	MousePosData curMouse = eyeDebug->GetEyePos();
+	int mouseDotRadius = 5;
+	AddDotToDisplay(lastMouse.x, lastMouse.y, mouseDotRadius);
+	
 	// Main message loop:
 	while (GetMessage(&msg, nullptr, 0, 0))
 	{
-		//OutputDebugStringW(L"CONTINUING GUI\n");
+		ClearDot(lastMouse.x, lastMouse.y, mouseDotRadius);
+		AddDotToDisplay(curMouse.x, curMouse.y, mouseDotRadius);
+		lastMouse = curMouse;
+		curMouse = eyeDebug->GetEyePos();
+
 		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
 	}
+
 	killSignal = true;
 	eyeTracker.join();
 	return (int)msg.wParam;
@@ -325,6 +338,14 @@ void AddDotToDisplay(int x, int y) {
 
 void ClearDot(int x, int y) {
 	BCX_Circle(hWndMain, x, y, DOTRADIUS, RGB(255, 255, 255), true, NULL);
+}
+
+void AddDotToDisplay(int x, int y, int radius) {
+	BCX_Circle(hWndMain, x, y, radius, RGB(255, 0, 0), true, NULL);
+}
+
+void ClearDot(int x, int y, int radius) {
+	BCX_Circle(hWndMain, x, y, radius, RGB(255, 255, 255), true, NULL);
 }
 
 int BCX_Circle(HWND Wnd, int X, int Y, int R, int color, int Fill, HDC DrawHDC)
