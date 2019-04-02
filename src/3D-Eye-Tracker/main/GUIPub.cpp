@@ -8,6 +8,7 @@
 #include <thread> 
 #include "DummyPublisher.h"
 #include "EyePosDebug.h"
+#include<vector>
 
 #define MAX_LOADSTRING 100
 #define GWL_HINSTANCE       (-6)
@@ -27,6 +28,7 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 HWND CreateButton(int x, int y, int width, int height, string buttonText, int ID, HWND, HWND);
 int BCX_Circle(HWND Wnd, int X, int Y, int R, int color, int Fill, HDC DrawHDC);
+vector<HWND> buttons;
 bool OptiKeyActive = false;
 
 #define ID_OPTIKEYBUTTON 0x8801
@@ -38,7 +40,7 @@ HWND trainingButton;
 HWND loadFromFileButton;
 #define ID_LOADFROMFILEBUTTON 0x8809
 
-HWND loadFromTrainingDataFromFileButton;
+HWND loadTrainingButton;
 #define ID_LOADFROMTRAININGDATAFROMFILEBUTTON 0x8813
 
 PubSubHandler *pubSubHandler;
@@ -167,6 +169,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		(HMENU)ID_OPTIKEYBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
 		NULL);      // Pointer not needed.
+	buttons.push_back(optikeyButton);
 
 	trainingButton = CreateWindow(
 		"BUTTON",  // Predefined class; Unicode assumed 
@@ -180,6 +183,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		(HMENU)ID_TRAININGBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
 		NULL);      // Pointer not needed.
+	buttons.push_back(trainingButton);
 
 	loadFromFileButton = CreateWindow(
 		"BUTTON",  // Predefined class; Unicode assumed 
@@ -193,8 +197,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		(HMENU)ID_LOADFROMFILEBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
 		NULL);      // Pointer not needed.
+	buttons.push_back(loadFromFileButton);
 
-	loadFromTrainingDataFromFileButton = CreateWindow(
+
+	loadTrainingButton = CreateWindow(
 		"BUTTON",  // Predefined class; Unicode assumed 
 		"Load Training Data From File",      // Button text 
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
@@ -206,7 +212,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		(HMENU)ID_LOADFROMTRAININGDATAFROMFILEBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
 		NULL);      // Pointer not needed.
+	buttons.push_back(loadTrainingButton);
+
 	 //CreateButton(50, 200, 100, 100, "Start Training", ID_TRAININGBUTTON, trainingButton, hWndMain);
+
+
 
 
 	ShowWindow(hWndMain, nCmdShow);
@@ -332,8 +342,8 @@ void CreateButton(int x, int y, int width, int height, LPCSTR buttonText, int ID
 }
 
 const int DOTRADIUS = 20;
-void AddDotToDisplay(int x, int y) {
-	BCX_Circle(hWndMain, x, y, DOTRADIUS, RGB(255,0,0), true, NULL);
+void AddDotToDisplay(int x, int y, int r, int g, int b) {
+	BCX_Circle(hWndMain, x, y, DOTRADIUS, RGB(r,g,b), true, NULL);
 }
 
 void ClearDot(int x, int y) {
@@ -345,7 +355,7 @@ void AddDotToDisplay(int x, int y, int radius) {
 }
 
 void ClearDot(int x, int y, int radius) {
-	BCX_Circle(hWndMain, x, y, radius, RGB(255, 255, 255), true, NULL);
+	BCX_Circle(hWndMain, x, y, radius, RGB(0, 0, 0), true, NULL);
 }
 
 int BCX_Circle(HWND Wnd, int X, int Y, int R, int color, int Fill, HDC DrawHDC)
@@ -376,4 +386,16 @@ int BCX_Circle(HWND Wnd, int X, int Y, int R, int color, int Fill, HDC DrawHDC)
 	DeleteObject(SelectObject(DrawHDC, hOldBrush));
 	if (b) ReleaseDC(Wnd, DrawHDC);
 	return a;
+}
+
+void HideButtons() {
+	for(HWND button : buttons) {
+		ShowWindow(button, SW_HIDE);
+	}
+}
+
+void ShowButtons() {
+	for (HWND button : buttons) {
+		ShowWindow(button, SW_SHOW);
+	}
 }
