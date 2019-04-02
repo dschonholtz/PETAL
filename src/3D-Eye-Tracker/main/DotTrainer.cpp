@@ -36,7 +36,7 @@ DWORD DotTrainer::Run()
 	dotX = 50;
 	dotY = 25;
 	bool backwards = false;
-	for (int k = 0; k < 18; k++) {
+	for (int k = 0; k < 4; k++) {
 		for (int i = 0; i < 7; i++) {
 			if (i != 0) {
 				if (backwards) {

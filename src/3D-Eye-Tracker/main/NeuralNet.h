@@ -20,7 +20,7 @@ private:
 	int trainingMouseX;
 	int trainingMouseY;
 
-	const int VEC_SIZE = 23;
+	const int VEC_SIZE = 24;
 
 	struct fann *ann;
 	std::vector<std::vector<double>> trainingData;
