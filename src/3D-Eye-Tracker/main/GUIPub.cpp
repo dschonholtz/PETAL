@@ -352,7 +352,7 @@ void AddDotToDisplay(int x, int y, int radius) {
 }
 
 void ClearDot(int x, int y, int radius) {
-	BCX_Circle(hWndMain, x, y, radius, RGB(0, 0, 0), true, NULL);
+	BCX_Circle(hWndMain, x, y, radius, RGB(255, 255, 255), true, NULL);
 }
 
 int BCX_Circle(HWND Wnd, int X, int Y, int R, int color, int Fill, HDC DrawHDC)
