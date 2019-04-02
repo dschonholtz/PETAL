@@ -4,6 +4,7 @@
 class EyePosDebug : Subscriber{
 public:
 	EyePosDebug(PubSubHandler* p) : Subscriber(p) {
+		Subscriber::SubscribeToTopic(EventTopic::MousePos);
 	}
 
 	vector<MousePosData> recievedMousePositions;
