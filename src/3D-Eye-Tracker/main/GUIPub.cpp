@@ -216,9 +216,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	 //CreateButton(50, 200, 100, 100, "Start Training", ID_TRAININGBUTTON, trainingButton, hWndMain);
 
-
-
-
 	ShowWindow(hWndMain, nCmdShow);
 	UpdateWindow(hWndMain);
 

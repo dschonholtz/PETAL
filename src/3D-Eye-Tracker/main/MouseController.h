@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
 #include "Subscriber.h"
+#include "GUIPub.h"
 
 struct MouseVelocity {
 	int xVel;

@@ -4,11 +4,13 @@
 #include "GUIPub.h"
 #include <fstream>
 #include <sstream>
+#include "GUIPub.h"
 
 
 DotTrainer::DotTrainer(PubSubHandler *p) : Publisher(p) {
 	GetModuleFileName(NULL, cPath, _MAX_PATH);
 	srand(time(NULL));
+	GetGapViaScreenRes(cols, rows);
 }
 
 DotTrainer::~DotTrainer()
@@ -44,7 +46,7 @@ void DotTrainer::DrawDot(int dotX, int dotY) {
 	AddDotToDisplay(dotX, dotY, 0,0,0);
 }
 
-void DotTrainer::HorizontalDotMovement(int& dotX, int& dotY, int x_gap, int y_gap, int rows, int cols) {
+void DotTrainer::HorizontalDotMovement(int& dotX, int& dotY, int x_gap, int y_gap) {
 	dotY -= y_gap;
 	for (int i = 0; i < rows; i++) {
 		dotY += y_gap;
@@ -58,7 +60,7 @@ void DotTrainer::HorizontalDotMovement(int& dotX, int& dotY, int x_gap, int y_ga
 	}
 }
 
-void DotTrainer::VerticalDotMovement(int& dotX, int& dotY, int x_gap, int y_gap, int rows, int cols) {
+void DotTrainer::VerticalDotMovement(int& dotX, int& dotY, int x_gap, int y_gap) {
 	dotX -= x_gap;
 	for (int i = 0; i < cols; i++) {
 		dotX += x_gap;
@@ -82,28 +84,27 @@ DWORD DotTrainer::Run()
 	int START_X = 50;
 	int START_Y = 25;
 	bool backwards = false;
-	int ROWS = 6;
-	int COLS = 7;
 	int dotX = START_X;
 	int dotY = START_Y;
+	int a = rows;
 
 	//Right -> Left
 	for (int i = 0; i < NUMITERATIONS; i++) {
 		int x_gap = GAP;
 		int y_gap = GAP;
-		HorizontalDotMovement(dotX, dotY, x_gap, y_gap, ROWS, COLS); //Left -> Right
+		HorizontalDotMovement(dotX, dotY, x_gap, y_gap); //Left -> Right
 		DetermineGap(x_gap, y_gap, START_X, START_Y, dotX, dotY, GAP);
 
-		HorizontalDotMovement(dotX, dotY, x_gap, y_gap, ROWS, COLS); //Right -> Left
+		HorizontalDotMovement(dotX, dotY, x_gap, y_gap); //Right -> Left
 		DetermineGap(x_gap, y_gap, START_X, START_Y, dotX, dotY, GAP);
 
-		VerticalDotMovement(dotX, dotY, x_gap, y_gap, ROWS, COLS); // Up->down
+		VerticalDotMovement(dotX, dotY, x_gap, y_gap); // Up->down
 		DetermineGap(x_gap, y_gap, START_X, START_Y, dotX, dotY, GAP);
 
-		VerticalDotMovement(dotX , dotY, x_gap, y_gap, ROWS, COLS); //Down-Up
+		VerticalDotMovement(dotX , dotY, x_gap, y_gap); //Down-Up
 	}
 
-	ClearAllDots(dotX, dotY, GAP, GAP, ROWS, COLS);
+	ClearAllDots(dotX, dotY, GAP, GAP);
 	ShowButtons();
 	EventMessage em;
 	em.topic = TurnTrainingOff;
@@ -114,7 +115,7 @@ DWORD DotTrainer::Run()
 	return 1;
 }
 
-void DotTrainer::ClearAllDots(int dotX, int dotY, int x_gap, int y_gap, int rows, int cols) {
+void DotTrainer::ClearAllDots(int dotX, int dotY, int x_gap, int y_gap) {
 	dotY -= y_gap;
 	for (int i = 0; i < rows; i++) {
 		dotY += y_gap;
@@ -130,4 +131,13 @@ void DotTrainer::ClearAllDots(int dotX, int dotY, int x_gap, int y_gap, int rows
 void DotTrainer::DetermineGap(int &x_gap, int& y_gap, int START_X, int START_Y, int curX, int curY, int GAP) {
 	x_gap = (curX == START_X) ? GAP : -GAP;
 	y_gap = (curY == START_Y) ? GAP : -GAP;
+}
+
+void DotTrainer::GetGapViaScreenRes(int& rows, int& cols) {
+	int screenWidth;
+	int screenHeight;
+	GetDesktopResolution(screenWidth, screenHeight);
+
+	rows = screenWidth / 100;
+	cols = screenHeight / 100;
 }
