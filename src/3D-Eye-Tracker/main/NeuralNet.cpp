@@ -27,14 +27,14 @@ void NeuralNet::readMessages() {
 	EventMessage em = NeuralNet::getTopMessage();
 	if (em.topic == Eye) {
 		std::vector<double> eyeData = *static_cast<std::vector<double> *>(em.data);
-		for(int i = 0; i < 5; i++) {
-			mostRecentData[i + currentEyeIndex * 5] = eyeData.at(i);
-		}
-		if (currentEyeIndex < 2) {
-			currentEyeIndex++;
-		}
-		else {
-			currentEyeIndex = 0;
+		for(int i = 0; i < 15; i++) {
+			if (i > 9) {
+				mostRecentData[i - 10] = eyeData.at(i - 10);
+			}
+			else {
+				mostRecentData[i + 5] = mostRecentData[i];
+			}
+			
 		}
 		if (trainingOn) {
 			bool isZero = false;
@@ -69,8 +69,9 @@ void NeuralNet::readMessages() {
 	else if (em.topic == AprilTag) {
 		aprilTagData = *static_cast<std::vector<double> *>(em.data);
 		recievedAprilTagData = true;
+		bool isZero = false;
 		for (int i = 0; i < aprilTagData.size(); i++) {
-			mostRecentData[15+i] = aprilTagData.at(i);
+			mostRecentData[15 + i] = aprilTagData.at(i);
 		}
 	}
 	else if (em.topic == TrainingMousePos) {
@@ -94,6 +95,9 @@ void NeuralNet::readMessages() {
 	}
 	else if (em.topic == LoadNeuralNetworkFromFile) {
 		loadNeuralNetworkFromFile();
+	}
+	else if (em.topic == LoadTrainingDataFromFile) {
+		trainNeuralNetwork();
 	}
 	if (recievedEyeData &&
 		recievedAprilTagData &&
@@ -122,13 +126,13 @@ void NeuralNet::writeMostRecentTrainingSetToFile() {
 void NeuralNet::trainNeuralNetwork() {
 	//cout << endl << "Eye Tracking neuralNet started." << endl;
 
-	const float learning_rate = 0.07f;
-	const unsigned int num_layers = 5;
+	const float learning_rate = 0.05f;
+	const unsigned int num_layers = 6;
 	const float desired_error = 0.10f;
-	const unsigned int max_iterations = 300000;
+	const unsigned int max_iterations = 5000;
 	const unsigned int iterations_between_reports = 1000;
 
-	unsigned int layers[5] = { VEC_SIZE, 35, 20, 10, 2 };
+	unsigned int layers[6] = { VEC_SIZE, 30, 23, 13, 7, 2 };
 	net.create_standard_array(num_layers, layers);
 
 	net.set_learning_rate(learning_rate);
@@ -214,31 +218,4 @@ void NeuralNet::generateFannTrainingFile() {
 		outfile << endl;
 	}
 	outfile.close();
-
-
-	//ifstream myfile("TrainingData.txt");
-	//string line;
-	//if (myfile.is_open())
-	//{
-	//	while (getline(myfile, line))
-	//	{
-	//		std::vector<int> vect;
-	//		// split the string on commas
-	//		std::stringstream ss(line);
-
-	//		int i;
-
-	//		while (ss >> i)
-	//		{
-	//			vect.push_back(i);
-
-	//			if (ss.peek() == ',')
-	//				ss.ignore();
-	//		}
-
-	//		for (i = 0; i< vect.size(); i++)
-	//			std::cout << vect.at(i) << std::endl;
-	//	}
-	//	myfile.close();
-	//}
 }
