@@ -3,9 +3,6 @@
 #include "DummyPublisher.h"
 #include "MouseController.h"
 
-PubSubHandler::PubSubHandler() {
-}
-
 void PubSubHandler::AddSubscriber(Subscriber* s, EventTopic e) {
 	if (topicSubscribers.find(e) == topicSubscribers.end()) {
 		topicSubscribers.insert(make_pair(e, list<Subscriber*>{ s }));
@@ -20,9 +17,21 @@ void PubSubHandler::RemoveSubscriber(Subscriber*s, EventTopic e) {
 }
 
 void PubSubHandler::ReceiveMessage(EventMessage e) {
-	messageQueue.push(e);
-	//Unsure when to forward messages
-	Forward();
+	DWORD wait;
+	while (1) 
+	{
+		wait = WaitForSingleObject(ghmutex, INFINITE);
+		switch (wait)
+		{
+		case WAIT_OBJECT_0:
+			messageQueue.push(e);
+			ReleaseMutex(ghmutex);
+			Forward();
+			return;
+				break;
+		}
+
+	}
 }
 
 void PubSubHandler::Forward() {

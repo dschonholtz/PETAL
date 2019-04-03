@@ -15,6 +15,7 @@ class MouseController: public Subscriber
 	// Access specifier 
 public:
 	MouseController(PubSubHandler* p) : Subscriber(p){
+		GetDesktopResolution(screenWidth, screenHeight);
 	}
 	vector<MousePosData> recievedMousePositions;
 	MousePosData currentMousePosition;
@@ -28,7 +29,8 @@ public:
 
 private:
 	int mouseSpeed = 10;
-	void GetDesktopRes(int& hor, int& vert);
 	MousePosData MoveMouseRelativeToEyePos(MousePosData eyePos, int width, int height);
+	int screenWidth;
+	int screenHeight;
 
 };

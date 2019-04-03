@@ -161,10 +161,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		"BUTTON",  // Predefined class; Unicode assumed 
 		"Start Optikey",      // Button text 
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
-		50,         // x position 
-		50,         // y position 
-		150,        // Button width
-		150,        // Button height
+		500,         // x position 
+		150,         // y position 
+		200,        // Button width
+		200,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_OPTIKEYBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
@@ -175,10 +175,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		"BUTTON",  // Predefined class; Unicode assumed 
 		"Start Training",      // Button text 
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
-		50,         // x position 
-		200,         // y position 
-		150,        // Button width
-		150,        // Button height
+		500,         // x position 
+		375,         // y position 
+		200,        // Button width
+		200,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_TRAININGBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
@@ -187,12 +187,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	loadFromFileButton = CreateWindow(
 		"BUTTON",  // Predefined class; Unicode assumed 
-		"Load Neural Network From File",      // Button text 
+		"Load NN From File",      // Button text 
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
-		50,         // x position 
-		350,         // y position 
-		150,        // Button width
-		150,        // Button height
+		750,         // x position 
+		150,         // y position 
+		200,        // Button width
+		200,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_LOADFROMFILEBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
@@ -204,10 +204,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		"BUTTON",  // Predefined class; Unicode assumed 
 		"Load Training Data From File",      // Button text 
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
-		50,         // x position 
-		500,         // y position 
-		150,        // Button width
-		150,        // Button height
+		750,         // x position 
+		375,         // y position 
+		200,        // Button width
+		200,        // Button height
 		hWndMain,     // Parent window
 		(HMENU)ID_LOADFROMTRAININGDATAFROMFILEBUTTON,
 		(HINSTANCE)GetWindowLong(hWndMain, GWL_HINSTANCE),
@@ -395,4 +395,18 @@ void ShowButtons() {
 	for (HWND button : buttons) {
 		ShowWindow(button, SW_SHOW);
 	}
+}
+
+void GetDesktopResolution(int& horizontal, int& vertical)
+{
+	RECT desktop;
+	// Get a handle to the desktop window
+	const HWND hDesktop = GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	GetWindowRect(hDesktop, &desktop);
+	// The top left corner will have coordinates (0,0)
+	// and the bottom right corner will have coordinates
+	// (horizontal, vertical)
+	horizontal = desktop.right;
+	vertical = desktop.bottom;
 }
