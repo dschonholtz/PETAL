@@ -33,7 +33,7 @@ void DotTrainer::StartThread(void)
 
 void DotTrainer::DrawDot(int dotX, int dotY) {
 	AddDotToDisplay(dotX, dotY, 255, 0,0);
-	int sleep = 250;
+	int sleep = 200;
 	MousePosTraining mousePosTraining;
 	mousePosTraining.x = dotX;
 	mousePosTraining.y = dotY;
@@ -78,9 +78,9 @@ DWORD DotTrainer::Run()
 	HideButtons();
 	if (trainingOn) return 0;
 
-	int NUMITERATIONS = 4;
+	int NUMITERATIONS = 1;
 	trainingOn = true;
-	int GAP = 100;
+	int GAP = 70;
 	int START_X = 50;
 	int START_Y = 25;
 	bool backwards = false;
@@ -138,6 +138,6 @@ void DotTrainer::GetGapViaScreenRes(int& rows, int& cols) {
 	int screenHeight;
 	GetDesktopResolution(screenWidth, screenHeight);
 
-	rows = screenWidth / 100;
-	cols = screenHeight / 100;
+	rows = screenWidth / 70;
+	cols = screenHeight / 70; // gap is small enough that the bar at the top of the application pushes this off the screen with gap of 50
 }

@@ -338,7 +338,7 @@ void CreateButton(int x, int y, int width, int height, LPCSTR buttonText, int ID
 		NULL);      // Pointer not needed.
 }
 
-const int DOTRADIUS = 20;
+const int DOTRADIUS = 10;
 void AddDotToDisplay(int x, int y, int r, int g, int b) {
 	BCX_Circle(hWndMain, x, y, DOTRADIUS, RGB(r,g,b), true, NULL);
 }
