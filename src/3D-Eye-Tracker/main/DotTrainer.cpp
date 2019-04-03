@@ -33,7 +33,7 @@ void DotTrainer::StartThread(void)
 
 void DotTrainer::DrawDot(int dotX, int dotY) {
 	AddDotToDisplay(dotX, dotY, 255, 0,0);
-	int sleep = 100;
+	int sleep = 250;
 	MousePosTraining mousePosTraining;
 	mousePosTraining.x = dotX;
 	mousePosTraining.y = dotY;
@@ -78,7 +78,7 @@ DWORD DotTrainer::Run()
 	HideButtons();
 	if (trainingOn) return 0;
 
-	int NUMITERATIONS = 1;
+	int NUMITERATIONS = 4;
 	trainingOn = true;
 	int GAP = 100;
 	int START_X = 50;

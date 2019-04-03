@@ -10,7 +10,8 @@ void MouseController::readMessages() {
 		MousePosData deepCopy;
 		deepCopy.x = mpd->x;
 		deepCopy.y = mpd->y;
-		MousePosData newPoint = calculateNewMousePos(deepCopy);
+		MousePosData newPoint =calculateNewMousePos(deepCopy);
+		//MousePosData newPoint = MoveMouseRelativeToEyePos(deepCopy, screenWidth, screenHeight);
 		setCursorPosition(newPoint.x, newPoint.y);
 	}
 }
@@ -42,8 +43,8 @@ void MouseController::setCursorPosition(int x, int y)
 MousePosData MouseController::MoveMouseRelativeToEyePos(MousePosData eyePos, int width, int height) {
 	MouseVelocity* mv = new MouseVelocity();
 	int PIXELBUFFER = 100;
-	double speedScaleX = (eyePos.x / width) * 3;
-	double speedScaleY = (eyePos.y / height) * 3;
+	double speedScaleX = (eyePos.x / (double)width) * 3.0;
+	double speedScaleY = (eyePos.y / (double)height) * 3.0;
 
 	mv->xVel = (eyePos.x > width / 2 + PIXELBUFFER) ? mouseSpeed * speedScaleX : (eyePos.x < width / 2 - PIXELBUFFER) ? -mouseSpeed * speedScaleX : 0;
 	mv->yVel = (eyePos.y > height / 2 + PIXELBUFFER) ? mouseSpeed * speedScaleY : (eyePos.x < height / 2 - PIXELBUFFER) ? -mouseSpeed * speedScaleY : 0;
@@ -55,18 +56,4 @@ MousePosData MouseController::MoveMouseRelativeToEyePos(MousePosData eyePos, int
 	newMousePos.y = currentMousePos.y + mv->yVel;
 
 	return newMousePos;	
-}
-
-void GetDesktopResolution(int& horizontal, int& vertical)
-{
-	RECT desktop;
-	// Get a handle to the desktop window
-	const HWND hDesktop = GetDesktopWindow();
-	// Get the size of screen to the variable desktop
-	GetWindowRect(hDesktop, &desktop);
-	// The top left corner will have coordinates (0,0)
-	// and the bottom right corner will have coordinates
-	// (horizontal, vertical)
-	horizontal = desktop.right;
-	vertical = desktop.bottom;
 }
