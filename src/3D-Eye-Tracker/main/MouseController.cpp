@@ -47,7 +47,7 @@ MousePosData MouseController::MoveMouseRelativeToEyePos(MousePosData eyePos, int
 	double speedScaleY = (eyePos.y / (double)height) * 3.0;
 
 	mv->xVel = (eyePos.x > width / 2 + PIXELBUFFER) ? mouseSpeed * speedScaleX : (eyePos.x < width / 2 - PIXELBUFFER) ? -mouseSpeed * speedScaleX : 0;
-	mv->yVel = (eyePos.y > height / 2 + PIXELBUFFER + 100) ? mouseSpeed * speedScaleY : (eyePos.x < height / 2 - PIXELBUFFER + 100) ? -mouseSpeed * speedScaleY : 0;
+	mv->yVel = (eyePos.y > height / 2 + PIXELBUFFER + 100) ? mouseSpeed * speedScaleY : (eyePos.y < height / 2 - PIXELBUFFER + 100) ? -mouseSpeed * speedScaleY : 0;
 
 	POINT currentMousePos;
 	GetCursorPos(&currentMousePos);
