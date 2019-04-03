@@ -216,9 +216,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	 //CreateButton(50, 200, 100, 100, "Start Training", ID_TRAININGBUTTON, trainingButton, hWndMain);
 
-
-
-
 	ShowWindow(hWndMain, nCmdShow);
 	UpdateWindow(hWndMain);
 
@@ -355,7 +352,7 @@ void AddDotToDisplay(int x, int y, int radius) {
 }
 
 void ClearDot(int x, int y, int radius) {
-	BCX_Circle(hWndMain, x, y, radius, RGB(0, 0, 0), true, NULL);
+	BCX_Circle(hWndMain, x, y, radius, RGB(255, 255, 255), true, NULL);
 }
 
 int BCX_Circle(HWND Wnd, int X, int Y, int R, int color, int Fill, HDC DrawHDC)
